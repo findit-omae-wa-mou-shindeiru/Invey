@@ -2,7 +2,8 @@ import React from 'react'
 import { SessionProvider } from 'next-auth/react'
 import { AppProps } from 'next/app'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
-import '../styles/global.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'styles/global.css'
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
