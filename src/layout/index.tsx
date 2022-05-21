@@ -1,3 +1,4 @@
 import Auth from './auth';
+import Dashboard from "./dashboard"
 
-export { Auth };
+export { Auth, Dashboard };

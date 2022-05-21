@@ -1,0 +1,59 @@
+.container {
+  padding: 2.25rem;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+
+  color: #293072;
+}
+
+.desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.3125rem;
+
+  color: #293072;
+  flex-grow: 2;
+}
+
+.stats {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.125rem;
+
+  color: #fba905;
+}
+
+.rewardsIconContainer,
+.estTimeIconContainer {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.estTimeIconContainer {
+  padding: 0.5rem;
+}
+
+.btnContainer {
+  width: calc(7.5rem + 22px);
+  height: calc(13px + 1.75rem);
+  background: #293072;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+
+  color: #ffffff;
+}

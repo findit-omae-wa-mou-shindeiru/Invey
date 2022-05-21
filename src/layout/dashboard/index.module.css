@@ -1,0 +1,12 @@
+.main {
+  background: #eaeaf1;
+  flex-grow: 2;
+}
+
+.imgContainer {
+  width: 250px;
+}
+
+.imgContainer > img {
+  width: 100%;
+}
