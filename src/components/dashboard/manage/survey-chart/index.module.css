@@ -1,0 +1,20 @@
+/* .container {
+  width: 85vw;
+  max-width: 700px;
+} */
+
+.title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 29px;
+
+  color: #293072;
+}
+
+.content {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 650px;
+}

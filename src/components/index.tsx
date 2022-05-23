@@ -5,6 +5,8 @@ import Sidebar from './dashboard/shared/sidebar';
 import FilterSelection from './dashboard/explore/filter-selection';
 import SurveyBox from './dashboard/shared/survey-box';
 import UserInfo from "./shared/user-info";
+import SurveyChart from './dashboard/manage/survey-chart';
+import StatsSummary from './dashboard/manage/stats-summary';
 
 export {
   Navbar,
@@ -14,4 +16,6 @@ export {
   FilterSelection,
   SurveyBox,
   UserInfo,
+  SurveyChart,
+  StatsSummary,
 };
