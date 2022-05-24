@@ -7,6 +7,7 @@ import SurveyBox from './dashboard/shared/survey-box';
 import UserInfo from "./shared/user-info";
 import SurveyChart from './dashboard/manage/survey-chart';
 import StatsSummary from './dashboard/manage/stats-summary';
+import FormNav from './form/shared/form-nav';
 
 export {
   Navbar,
@@ -18,4 +19,5 @@ export {
   UserInfo,
   SurveyChart,
   StatsSummary,
+  FormNav,
 };
