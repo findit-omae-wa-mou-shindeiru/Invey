@@ -10,6 +10,10 @@ import StatsSummary from './dashboard/manage/stats-summary';
 import FormNav from './form/shared/form-nav';
 import AddQuestionSidebar from './form/survey/add-question-sidebar';
 import ShortAnswerQuestion from './form/survey/short-answer-question';
+import ParagraphQuestion from './form/survey/paragraph-question';
+import MultipleChoiceQuestion from './form/survey/multiple-choice-question';
+import CheckboxQuestion from './form/survey/checkbox-question';
+import DropdownQuestion from './form/survey/dropdown-question';
 
 export {
   Navbar,
@@ -24,4 +28,8 @@ export {
   FormNav,
   AddQuestionSidebar,
   ShortAnswerQuestion,
+  ParagraphQuestion,
+  MultipleChoiceQuestion,
+  CheckboxQuestion,
+  DropdownQuestion,
 };

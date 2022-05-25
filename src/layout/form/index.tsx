@@ -7,9 +7,21 @@ const Form = ({
   children: JSX.Element;
 }) => {
   return (
-    <div className={styles.container + ' page'}>
+    <div
+      className={
+        styles.container +
+        ' page d-flex flex-column'
+      }
+    >
       <FormNav />
-      <div>{children}</div>
+      <div
+        className={
+          styles.childrenContainer +
+          ' d-flex flex-column'
+        }
+      >
+        {children}
+      </div>
     </div>
   );
 };

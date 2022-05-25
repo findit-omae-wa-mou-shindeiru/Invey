@@ -1,0 +1,52 @@
+.container {
+  flex-grow: 2;
+}
+
+.surveyContainer {
+  flex-grow: 2;
+  gap: 1.5rem;
+  padding: 20px 1.5rem;
+}
+
+.surveyInfoContainer {
+  margin-bottom: 1.5rem;
+}
+
+.surveyTitle,
+.surveyDesc {
+  margin-bottom: 8px;
+}
+
+.surveyTitle > input,
+.surveyDesc > input {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.surveyTitle > input:focus,
+.surveyDesc > input:focus {
+  padding-bottom: 4px;
+  border-bottom: 2px solid #000;
+}
+
+.surveyTitle > input {
+  font-weight: 500;
+  font-size: calc(20px + 0.5rem);
+  line-height: calc(24px + 0.5rem);
+
+  color: #293072;
+}
+
+.surveyDesc > input {
+  font-weight: 500;
+  font-size: calc(14px + 0.5rem);
+  line-height: calc(18px + 0.5rem);
+
+  color: #293072;
+}
+
+.question {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
