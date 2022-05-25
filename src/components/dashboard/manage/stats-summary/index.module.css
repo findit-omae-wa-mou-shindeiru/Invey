@@ -2,10 +2,10 @@
   width: 330px;
 }
 
-.statusTitle,
-.createTitle,
-.pointsTitle,
-.quickStatsTitle {
+.statusTitle > h1,
+.createTitle > h1,
+.pointsTitle > h1,
+.quickStatsTitle > h1 {
   font-style: normal;
   font-weight: 600;
   font-size: calc(17px + 0.5rem);

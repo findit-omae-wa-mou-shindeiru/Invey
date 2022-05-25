@@ -59,7 +59,7 @@ const FilterSelection = ({
                 alt="filter icon"
               />
             </div>
-            <div>Filter</div>
+            <div>Apply Filter</div>
           </button>
         </div>
 
