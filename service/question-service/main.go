@@ -1,12 +1,12 @@
 package questionservice
 
 import (
-	// "os"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	// "gorm.io/driver/mysql"
-	// "gorm.io/gorm"
+	"gorm.io/gorm"
+	"gorm.io/driver/mysql"
 )
 
 func main() {
@@ -15,18 +15,18 @@ func main() {
         panic(env_err) 
     }
 	
-    // db_string := os.Getenv("DB_STRING")
+    db_string := os.Getenv("DB_STRING")
 
     r := gin.Default()
-	//     db, err := gorm.Open(mysql.Open(db_string), &gorm.Config{})
-	//
-	//     if err != nil {
-	//         panic(err)
-	//     }
+    _, err := gorm.Open(mysql.Open(db_string), &gorm.Config{})
+	
+    if err != nil {
+        panic(err)
+    }
 	//
 	// r.POST("/robot", robot.CreateRobot);
 	// r.GET("/robot", robot.GetAllRobots);
 	//     r.POST("/hmi-data", hmiData.CreateData);
 	//     r.GET("/hmi-data/:username", hmiData.GetByUsername);
-	//     r.Run(":3000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+    r.Run(":3000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
