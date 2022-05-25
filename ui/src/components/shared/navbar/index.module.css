@@ -1,0 +1,40 @@
+.sidebar {
+  width: 300px;
+  background: #f3f5f7;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  transition: all 0.4s cubic-bezier(0, 0, 0, 1) 0s;
+}
+
+.bigScreenUrls {
+  gap: 60px;
+}
+
+.link {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  color: #f3f5f7;
+}
+
+.linkDiff {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  background: #fbb206;
+  color: #293072;
+  border-radius: 6px;
+}
+
+.contentSidebar {
+  row-gap: 16px;
+}
+
+.linkSidebar {
+  color: #293072;
+  font-size: 2.25rem;
+}

@@ -1,0 +1,20 @@
+.container {
+  flex-grow: 2;
+}
+
+.rightContainer {
+  flex-grow: 2;
+}
+
+.recentSurvey {
+  margin-top: 2rem;
+}
+
+.recentSurveyTitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: calc(16px + 0.5rem);
+  line-height: calc(1.3125rem + 0.5rem);
+
+  color: #293072;
+}

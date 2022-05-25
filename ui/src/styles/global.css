@@ -1,0 +1,37 @@
+html {
+  font-size: 50%;
+}
+
+@media screen and (min-width: 576px) {
+  html {
+    font-size: 62.5%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}

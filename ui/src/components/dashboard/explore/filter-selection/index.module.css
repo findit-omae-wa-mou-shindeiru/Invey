@@ -1,0 +1,36 @@
+.leftContainer {
+  width: 330px;
+  padding-top: 46px;
+}
+
+.filterBtn {
+  font-weight: 700;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: #808082;
+  padding: 8px 10px;
+  border: 1px solid #808082;
+  border-radius: 7px;
+}
+
+.filterOptionsContainer {
+  padding: 12px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.inputContainer > input {
+  width: 21px;
+  height: 21px;
+  border: 2px solid #808082;
+  border-radius: 4px;
+}
+
+.inputLabel {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+
+  color: #808082;
+}
