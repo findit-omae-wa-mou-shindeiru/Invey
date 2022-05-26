@@ -1,3 +1,7 @@
 .container {
   background: #f3f5f7;
 }
+
+.childrenContainer {
+  flex-grow: 2;
+}
