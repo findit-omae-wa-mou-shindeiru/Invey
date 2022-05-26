@@ -1,0 +1,75 @@
+.container {
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.container input {
+  border: none;
+  padding: 0;
+  background: #f8f9fa;
+  padding: 10px;
+  border-bottom: 2px solid #293072;
+  color: #293072;
+}
+
+.disabled input,
+.inputDisabled.inputDisabled {
+  background: none;
+  padding: 0;
+  border: none;
+  color: #293072;
+}
+
+.idxContainer {
+  margin-right: 6px;
+}
+
+.titleContainer {
+  margin-bottom: 12px;
+  font-weight: 400;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: #293072;
+}
+
+.titleInputContainer {
+  flex-grow: 2;
+}
+
+.descContainer {
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-size: calc(7px + 0.5rem);
+  line-height: calc(10px + 0.5rem);
+  color: #293072;
+}
+
+.answerContainer {
+  margin-bottom: 16px;
+  font-weight: 300;
+  font-size: calc(7px + 0.5rem);
+  line-height: calc(10px + 0.5rem);
+  color: #293072;
+}
+
+.answerContainer input {
+  padding-bottom: 4px !important;
+  border-bottom: 2px solid #293072 !important;
+  width: 100%;
+}
+
+.answerContainer input:focus {
+  outline: none;
+}
+
+.btnEdit {
+  background-color: rgb(41, 48, 114, 0.9);
+  color: #fff;
+}
+
+.btnEdit:hover {
+  color: #fff;
+  background-color: rgb(41, 48, 114, 1);
+}

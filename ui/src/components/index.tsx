@@ -16,6 +16,17 @@ import CheckboxQuestion from "./form/survey/checkbox-question";
 import DropdownQuestion from "./form/survey/dropdown-question";
 import LinearScaleQuestion from "./form/survey/linear-scale-question";
 import AnalyticsSidebar from "./form/analytics/analytics-sidebar";
+import UploadImg from "./form/summary/upload-img";
+import SurveySummaryForm from "./form/summary/survey-summary-form";
+import IndividualAnalytics from "./form/analytics/individual-analytics";
+import OverviewAnalytics from "./form/analytics/overview-analytics";
+import QuestionAnalytics from "./form/analytics/question-analytics";
+import FillShortAnswer from "./fill-form/fill-short-answer";
+import FillParagraph from "./fill-form/fill-paragraph";
+import FillMultipleChoice from "./fill-form/fill-multiple-choice";
+import FillCheckbox from "./fill-form/fill-checkbox";
+import FillDropdown from "./fill-form/fill-dropdown";
+import FillLinearScale from "./fill-form/fill-linear-scale";
 
 export {
   Navbar,
@@ -36,4 +47,15 @@ export {
   DropdownQuestion,
   LinearScaleQuestion,
   AnalyticsSidebar,
+  UploadImg,
+  SurveySummaryForm,
+  IndividualAnalytics,
+  OverviewAnalytics,
+  QuestionAnalytics,
+  FillShortAnswer,
+  FillParagraph,
+  FillMultipleChoice,
+  FillCheckbox,
+  FillDropdown,
+  FillLinearScale,
 };

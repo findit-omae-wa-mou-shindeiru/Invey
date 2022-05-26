@@ -4,6 +4,7 @@ interface ICheckbox {
   description: string;
   options: { label: string; checked: boolean }[];
   isRequired: boolean;
+  answer: string[];
 }
 
 export default ICheckbox;

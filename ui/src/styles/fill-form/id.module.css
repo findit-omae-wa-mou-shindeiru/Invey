@@ -1,0 +1,5 @@
+.question {
+  width: 95%;
+  max-width: 800px;
+  margin: calc(16px + 0.5rem) auto;
+}
