@@ -3,6 +3,7 @@ package survey
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"io/ioutil"
 	"question-service/models"
 	"question-service/modules/auth"
@@ -332,6 +333,52 @@ func UpdateSurvey(c *gin.Context) {
     c.JSON(200,survey)
 }
 
-// TODO: aggregate answer
+func GetAnswerCountBySurveyId(c *gin.Context) {
+    survey_id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
 
-// TODO: update question
+    coll := models.MongoClient.Database("invey").Collection("answer")
+
+    filter := bson.D{{"survey_id", survey_id}}
+
+    count, err := coll.CountDocuments(context.TODO(), filter)
+    if err != nil {
+        c.String(400, err.Error())
+    }
+
+    c.JSON(200, bson.M{"count": count})
+}
+
+func UpdateQuestion(c *gin.Context) {
+    body_byte, _ := ioutil.ReadAll(c.Request.Body)
+
+    c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body_byte))
+
+    question_id := c.Param("questionId")
+
+    id, err := primitive.ObjectIDFromHex(question_id)
+
+    if err != nil {
+        c.String(400, err.Error())
+        return
+    }
+
+    filter := bson.D{{"_id", id}}
+
+    var jsonData []bson.M  
+
+    if e := json.Unmarshal(body_byte, &jsonData); e != nil {
+        c.JSON(400, e.Error())
+        return
+    }
+
+    collection := models.MongoClient.Database("invey").Collection("question")
+
+    result, err := collection.ReplaceOne(context.TODO(), filter, bson.M{"question":jsonData})
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    c.JSON(200, result)
+}

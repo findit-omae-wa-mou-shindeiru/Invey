@@ -68,3 +68,8 @@ func CreateAnswer(surveyId uint64, body []byte) (string, error) {
 
         return id, nil
 }
+
+func UpdateQuestionRepository(questionId string, body []byte) (string, error) {
+
+    return "", nil
+}
