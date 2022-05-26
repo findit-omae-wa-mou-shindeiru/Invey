@@ -94,12 +94,14 @@ const FillFormDetail = () => {
 
     if (questions[idx].type === QuestionType.Checkbox) {
       const newQuestions = [...questions];
-      newQuestions[idx].options = newQuestions[idx].options.map((e: { label: string; checked: boolean }) => {
-        return {
-          label: e.label,
-          checked: false,
+      newQuestions[idx].options = newQuestions[idx].options.map(
+        (e: { label: string; checked: boolean }) => {
+          return {
+            label: e.label,
+            checked: false,
+          };
         }
-      });
+      );
       setQuestions(newQuestions);
       return;
     }
@@ -107,6 +109,21 @@ const FillFormDetail = () => {
     const newQuestions = [...questions];
     newQuestions[idx].answer = defaultAnswer(questions[idx].type);
     setQuestions(newQuestions);
+  };
+
+  const onSubmit = () => {
+    console.log(questions);
+    if (
+      questions.some((question) => {
+        return (
+          question.isRequired &&
+          (!question.answer || question.answer !== 0) &&
+          question.answer.length === 0
+        );
+      })
+    ) {
+      alert("Please fill all required fields");
+    }
   };
 
   return (
@@ -125,7 +142,7 @@ const FillFormDetail = () => {
           })}
       </div>
       <div>
-        <button onClick={() => console.log(questions)}>submit</button>
+        <button onClick={onSubmit}>submit</button>
       </div>
     </div>
   );
@@ -139,7 +156,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
       } as IShortAnswer;
     case QuestionType.Paragraph:
       return {
@@ -147,7 +164,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
       } as IShortAnswer;
     case QuestionType.MultipleChoice:
       return {
@@ -155,7 +172,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
         options: ["option 1", "option 2", "option 3"],
       } as IMultipleChoice;
     case QuestionType.Checkbox:
@@ -164,7 +181,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: [],
-        isRequired: false,
+        isRequired: true,
         options: [
           {
             label: "option 1",
@@ -186,7 +203,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
         options: ["option 1", "option 2", "option 3"],
       } as IDropdown;
     case QuestionType.LinearScale:
@@ -195,7 +212,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: undefined,
-        isRequired: false,
+        isRequired: true,
         minScale: 1,
         maxScale: 5,
         minLabel: "Minimum Label",
