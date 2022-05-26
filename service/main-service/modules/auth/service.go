@@ -6,7 +6,6 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-// TODO: make return error
 func GetJWTUserToken(claim UserClaim) (string, error) {
     signingKey := os.Getenv("SIGN_KEY")
 

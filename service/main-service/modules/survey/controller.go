@@ -24,7 +24,6 @@ func CreateSurvey(c *gin.Context) {
         return
     }
 
-    // TODO: make this to be linked to id instead
     categories := 
         funk.Map(payload.Category, func(id uint) models.SurveyCategory {
             return models.SurveyCategory{
@@ -81,4 +80,32 @@ func CreateSurvey(c *gin.Context) {
     }
 
     c.JSON(200, survey)
+}
+
+func GetFilters(c *gin.Context) {
+    var gender []models.SurveyGender
+    var audience []models.SurveyAudience
+    var category []models.SurveyCategory
+
+    err_gender := models.DB.Find(&gender)
+    err_audience := models.DB.Find(&audience)
+    err_category := models.DB.Find(&category)
+
+    if err_gender.Error != nil {
+        c.String(400, err_gender.Error.Error()) 
+    }
+
+    if err_audience.Error != nil {
+        c.String(400, err_audience.Error.Error()) 
+    }
+
+    if err_category.Error != nil {
+        c.String(400, err_category.Error.Error()) 
+    }
+
+    c.JSON(200, gin.H {
+        "gender": gender,
+        "audience": audience,
+        "category": category,
+    })
 }
