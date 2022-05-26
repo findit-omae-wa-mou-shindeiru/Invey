@@ -47,6 +47,7 @@ func Login(c *gin.Context) {
 
     if error_token != nil {
         c.String(400, error_token.Error())
+        return
     }
 
     
@@ -94,6 +95,7 @@ func Register(c *gin.Context) {
 
     if error_token != nil {
         c.String(400, error_token.Error())
+        return
     }
 
     c.JSON(200, AuthToken{Token: authToken})

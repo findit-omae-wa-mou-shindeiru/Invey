@@ -67,6 +67,7 @@ func CreateSurvey(c *gin.Context) {
 
     if len(bearer_token) != 2 {
         c.String(401, "Missing Token")
+        return
     }
 
     token := bearer_token[1]
@@ -109,14 +110,17 @@ func GetFilters(c *gin.Context) {
 
     if err_gender.Error != nil {
         c.String(400, err_gender.Error.Error()) 
+        return
     }
 
     if err_audience.Error != nil {
         c.String(400, err_audience.Error.Error()) 
+        return
     }
 
     if err_category.Error != nil {
         c.String(400, err_category.Error.Error()) 
+        return
     }
 
     c.JSON(200, gin.H {
@@ -158,6 +162,7 @@ func GetSurveys(c *gin.Context) {
 
     if res.Error != nil {
         c.JSON(500, res.Error.Error())
+        return
     }
 
     c.JSON(200, survey)
@@ -264,3 +269,7 @@ func GetSurveyAnswerBySurveyId(c *gin.Context) {
 
     c.JSON(200, result)
 }
+
+// TODO: update survey
+// TODO: aggregate answer
+
