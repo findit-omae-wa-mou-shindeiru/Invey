@@ -234,3 +234,33 @@ func CreateAnswerToSurvey(c *gin.Context) {
 
     c.String(200, "Successfully created answer")
 }
+
+
+func GetSurveyAnswerBySurveyId(c *gin.Context) {
+    survey_id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+	coll := models.MongoClient.Database("invey").Collection("answer")
+
+    cursor, err := coll.Find(context.TODO(), bson.D{{"survey_id", bson.D{ { "$eq", survey_id} }}})
+    
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    var result []bson.M
+
+    err = cursor.All(context.TODO(), &result)
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    c.JSON(200, result)
+}
