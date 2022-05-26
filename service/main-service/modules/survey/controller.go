@@ -271,5 +271,67 @@ func GetSurveyAnswerBySurveyId(c *gin.Context) {
 }
 
 // TODO: update survey
+func UpdateSurvey(c *gin.Context) {
+    survey_id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    var survey models.Survey
+
+    // WARN: something off about the error, it updates just fine without it
+    models.DB.First(&survey, survey_id)
+
+    var update_payload SurveyUpdatePayload
+    
+    c.ShouldBind(&update_payload)
+    
+    if update_payload.Title != nil {
+        survey.Title = *update_payload.Title
+    }
+    
+    if update_payload.Description != nil {
+        survey.Description = *update_payload.Description
+    }
+    
+    // WARN: something off about the error, it updates just fine without it
+    models.DB.Save(&survey)
+    
+    if update_payload.AudienceId != nil {
+        var audiences []models.SurveyAudience
+    
+        for _, a := range *update_payload.AudienceId {
+            audiences = append(audiences, models.SurveyAudience{ID: a})
+        }
+    
+        models.DB.Model(&survey).Association("Audience").Replace(audiences)
+    }
+    
+    if update_payload.GenderId != nil {
+        var gender []models.SurveyGender
+    
+        for _, a := range *update_payload.GenderId {
+            gender = append(gender, models.SurveyGender{ID: a})
+        }
+    
+        models.DB.Model(&survey).Association("Gender").Replace(gender)
+    }
+    
+    if update_payload.CategoryId != nil {
+        var category []models.SurveyCategory
+    
+        for _, a := range *update_payload.CategoryId {
+            category = append(category, models.SurveyCategory{ID: a})
+        }
+    
+        models.DB.Model(&survey).Association("Category").Replace(category)
+    }
+    
+    c.JSON(200,survey)
+}
+
 // TODO: aggregate answer
 
+// TODO: update question

@@ -8,9 +8,16 @@ type CreateSurveyPayload struct {
   Gender        []uint              `json:"gender" binding:"required"`
 }
 
-
 type SurveyFilter struct {
   CategoryId      []uint              `json:"category_id" binding:"required"`
   AudienceId      []uint              `json:"audience_id" binding:"required"`
   GenderId        []uint              `json:"gender_id" binding:"required"`
+}
+
+type SurveyUpdatePayload struct {
+  Title           *string              `json:"title"`
+  Description     *string              `json:"description"`
+  CategoryId      *[]uint              `json:"category"`
+  AudienceId      *[]uint              `json:"audience"`
+  GenderId        *[]uint              `json:"gender"`
 }

@@ -19,6 +19,7 @@ func main() {
     r.POST("/auth/register", auth.Register)
     r.GET("/survey-filters", survey.GetFilters)
     r.POST("/survey", survey.CreateSurvey)
+    r.PUT("/survey/:surveyId", survey.UpdateSurvey)
     r.POST("/survey-answer/:surveyId", survey.CreateAnswerToSurvey)
     r.GET("/survey-answer/:surveyId", survey.GetSurveyAnswerBySurveyId)
     r.POST("/survey/filters", survey.GetSurveys)
