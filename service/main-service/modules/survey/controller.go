@@ -2,15 +2,18 @@ package survey
 
 import (
 	"bytes"
-	"fmt"
+	"context"
 	"io/ioutil"
 	"question-service/models"
 	"question-service/modules/auth"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/thoas/go-funk"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateSurvey(c *gin.Context) {
@@ -45,7 +48,6 @@ func CreateSurvey(c *gin.Context) {
                 ID: id,
             }
         }).([]models.SurveyGender)
-
 
     question_id, err := CreateQuestion(body_byte)
 
@@ -136,7 +138,6 @@ func GetSurveys(c *gin.Context) {
 
     var survey []models.Survey
 
-
     res := models.DB.Preload("Category")
 
     if len(filter.CategoryId) != 0 {
@@ -160,4 +161,76 @@ func GetSurveys(c *gin.Context) {
     }
 
     c.JSON(200, survey)
+}
+
+func GetSurveyById(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64) 
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    var survey models.Survey
+
+    models.DB.
+    Preload("Category").
+    Preload("Audience").
+    Preload("Gender").
+    First(&survey, id)
+    
+    c.JSON(200, survey)
+}
+
+
+func GetSurveyQuestionBySurveyId(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64) 
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    var survey models.Survey
+
+    models.DB.First(&survey, id)
+
+	coll := models.MongoClient.Database("invey").Collection("question")
+
+	var result bson.M
+
+    objectId, err := primitive.ObjectIDFromHex(survey.QuestionsId)
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    err = coll.FindOne(context.TODO(), bson.M{"_id": objectId}).Decode(&result)
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    c.JSON(200, result)
+}
+
+func CreateAnswerToSurvey(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
+    body_byte, _ := ioutil.ReadAll(c.Request.Body)
+
+    if err != nil {
+        c.String(400, err.Error())
+        return
+    }
+
+    _, err = CreateAnswer(id, body_byte)
+
+    if err != nil {
+        c.String(400, err.Error())
+        return
+    }
+
+    c.String(200, "Successfully created answer")
 }

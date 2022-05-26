@@ -11,7 +11,7 @@ type Survey struct {
   OwnerId       uint                `json:"owner_id"`
   Category      []SurveyCategory    `gorm:"many2many:survey_category" json:"category" binding:"required"`
   Audience      []SurveyAudience    `gorm:"many2many:survey_audience" json:"audience" binding:"required"`
-  Gender        []SurveyGender      `gorm:"many2many:survey_gender" json:"question" binding:"required"`
+  Gender        []SurveyGender      `gorm:"many2many:survey_gender" json:"gender" binding:"required"`
 }
 
 type SurveyCategory struct {
