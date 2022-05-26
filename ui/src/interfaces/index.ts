@@ -8,6 +8,7 @@ import IDropdown from './IDropdown';
 import IMultipleChoice from './IMultipleChoice';
 import ILinearScale from './ILinearScale';
 import IQuestionType from './IQuestionType';
+import ISurveySummary from './ISurveySummary';
 
 export type {
   IContent,
@@ -20,4 +21,5 @@ export type {
   IMultipleChoice,
   ILinearScale,
   IQuestionType,
+  ISurveySummary,
 };

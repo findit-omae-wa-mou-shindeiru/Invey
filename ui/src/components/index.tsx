@@ -16,6 +16,8 @@ import CheckboxQuestion from "./form/survey/checkbox-question";
 import DropdownQuestion from "./form/survey/dropdown-question";
 import LinearScaleQuestion from "./form/survey/linear-scale-question";
 import AnalyticsSidebar from "./form/analytics/analytics-sidebar";
+import UploadImg from "./form/summary/upload-img";
+import SurveySummaryForm from "./form/summary/survey-summary-form";
 
 export {
   Navbar,
@@ -36,4 +38,6 @@ export {
   DropdownQuestion,
   LinearScaleQuestion,
   AnalyticsSidebar,
+  UploadImg,
+  SurveySummaryForm,
 };
