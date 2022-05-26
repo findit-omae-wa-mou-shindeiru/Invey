@@ -78,3 +78,16 @@
   width: calc(12px + 0.5rem);
   height: calc(12px + 0.5rem);
 }
+
+.requiredCheckbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.requiredCheckbox div {
+  margin-left: 6px;
+  font-weight: 400;
+  font-size: calc(9px + 0.5rem);
+  line-height: calc(12px + 0.5rem);
+  color: #293072;
+}

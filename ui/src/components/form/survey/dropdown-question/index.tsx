@@ -1,8 +1,8 @@
-import styles from './index.module.css';
-import { IDropdown } from 'interfaces';
-import { useState } from 'react';
-import CloseButton from 'react-bootstrap/CloseButton';
-import Dropdown from 'react-bootstrap/Dropdown';
+import styles from "./index.module.css";
+import { IDropdown } from "interfaces";
+import { useState } from "react";
+import CloseButton from "react-bootstrap/CloseButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const DropdownQuestion = ({
   index,
@@ -13,38 +13,25 @@ const DropdownQuestion = ({
 }: {
   index: number;
   questionState: IDropdown;
-  onChange: (
-    index: number,
-    state: IDropdown,
-  ) => void;
+  onChange: (index: number, state: IDropdown) => void;
   onDelete: (index: number) => void;
   className?: string;
 }) => {
-  const [editing, setEditing] =
-    useState<boolean>(true);
+  const [editing, setEditing] = useState<boolean>(true);
 
   return (
     <div
       className={
         className +
-        ' ' +
+        " " +
         styles.container +
-        ' ' +
-        (editing ? '' : styles.disabled)
+        " " +
+        (editing ? "" : styles.disabled)
       }
     >
-      <div
-        className={
-          styles.titleContainer +
-          ' d-flex align-items-center'
-        }
-      >
-        <div className={styles.idxContainer}>
-          {index + 1 + '. '}
-        </div>
-        <div
-          className={styles.titleInputContainer}
-        >
+      <div className={styles.titleContainer + " d-flex align-items-center"}>
+        <div className={styles.idxContainer}>{index + 1 + ". "}</div>
+        <div className={styles.titleInputContainer}>
           <input
             type="text"
             value={questionState.title}
@@ -77,73 +64,59 @@ const DropdownQuestion = ({
       )}
       {editing ? (
         <div className={styles.answersContainer}>
-          {questionState.options.map(
-            (option, idx) => {
-              return (
+          {questionState.options.map((option, idx) => {
+            return (
+              <div
+                key={idx}
+                className={
+                  styles.answerContainer + " d-flex align-items-center w-100"
+                }
+              >
                 <div
-                  key={idx}
                   className={
-                    styles.answerContainer +
-                    ' d-flex align-items-center w-100'
+                    styles.answerInputContainer + " d-flex align-items-center"
                   }
                 >
-                  <div
-                    className={
-                      styles.answerInputContainer +
-                      ' d-flex align-items-center'
-                    }
-                  >
-                    <input
-                      type="text"
-                      value={option}
-                      disabled={!editing}
-                      onChange={(e) => {
-                        onChange(index, {
-                          ...questionState,
-                          options: [
-                            ...questionState.options.slice(
-                              0,
-                              idx,
-                            ),
-                            e.target.value,
-                            ...questionState.options.slice(
-                              idx + 1,
-                            ),
-                          ],
-                        });
-                      }}
-                    />
-                  </div>
-                  <div
-                    className={
-                      styles.closeButtonContainer +
-                      ' ms-3 ' +
-                      (editing ? '' : 'd-none')
-                    }
-                  >
-                    <CloseButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const newOptions =
-                          questionState.options
-                            .slice(0, idx)
-                            .concat(
-                              questionState.options.slice(
-                                idx + 1,
-                              ),
-                            );
-
-                        onChange(index, {
-                          ...questionState,
-                          options: newOptions,
-                        });
-                      }}
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    value={option}
+                    disabled={!editing}
+                    onChange={(e) => {
+                      onChange(index, {
+                        ...questionState,
+                        options: [
+                          ...questionState.options.slice(0, idx),
+                          e.target.value,
+                          ...questionState.options.slice(idx + 1),
+                        ],
+                      });
+                    }}
+                  />
                 </div>
-              );
-            },
-          )}
+                <div
+                  className={
+                    styles.closeButtonContainer +
+                    " ms-3 " +
+                    (editing ? "" : "d-none")
+                  }
+                >
+                  <CloseButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newOptions = questionState.options
+                        .slice(0, idx)
+                        .concat(questionState.options.slice(idx + 1));
+
+                      onChange(index, {
+                        ...questionState,
+                        options: newOptions,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className={styles.dropdownContainer}>
@@ -158,15 +131,9 @@ const DropdownQuestion = ({
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {questionState.options.map(
-                (option, idx) => {
-                  return (
-                    <Dropdown.Item key={idx}>
-                      {option}
-                    </Dropdown.Item>
-                  );
-                },
-              )}
+              {questionState.options.map((option, idx) => {
+                return <Dropdown.Item key={idx}>{option}</Dropdown.Item>;
+              })}
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -174,8 +141,7 @@ const DropdownQuestion = ({
       {editing && (
         <div
           className={
-            styles.addNewOptionBtnContainer +
-            ' d-flex justify-content-end'
+            styles.addNewOptionBtnContainer + " d-flex justify-content-end"
           }
         >
           <button
@@ -185,10 +151,7 @@ const DropdownQuestion = ({
               e.stopPropagation();
               onChange(index, {
                 ...questionState,
-                options: [
-                  ...questionState.options,
-                  'new option',
-                ],
+                options: [...questionState.options, "new option"],
               });
             }}
           >
@@ -196,19 +159,31 @@ const DropdownQuestion = ({
           </button>
         </div>
       )}
-      <div
-        className={
-          styles.btnContainer +
-          ' d-flex justify-content-between'
-        }
-      >
-        <button
-          type="button"
-          className={styles.btnEdit + ' btn'}
-          onClick={() => setEditing(!editing)}
-        >
-          {editing ? 'Done' : 'Edit'}
-        </button>
+      <div className={styles.btnContainer + " d-flex justify-content-between"}>
+        <div className="d-flex align-items-center">
+          <button
+            type="button"
+            className={styles.btnEdit + " btn me-3"}
+            onClick={() => setEditing(!editing)}
+          >
+            {editing ? "Done" : "Edit"}
+          </button>
+          {editing && (
+            <div className={styles.requiredCheckbox + " d-flex"}>
+              <input
+                type="checkbox"
+                checked={questionState.isRequired}
+                onChange={() => {
+                  onChange(index, {
+                    ...questionState,
+                    isRequired: !questionState.isRequired,
+                  });
+                }}
+              />
+              <div>Required</div>
+            </div>
+          )}
+        </div>
 
         <button
           type="button"

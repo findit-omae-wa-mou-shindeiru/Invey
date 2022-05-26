@@ -48,13 +48,16 @@ const FormNav = () => {
         }
       >
         {navItems.map((item, idx) => {
+          const arrPath = router.pathname.split("/");
           return (
             <div
               key={item.link}
               className={
                 styles.navItem +
                 " " +
-                (router.pathname === item.link ? styles.navItemActive : "")
+                (arrPath[arrPath.length - 1] === item.link
+                  ? styles.navItemActive
+                  : "")
               }
             >
               <Link href={linkNav(idx, id)}>
