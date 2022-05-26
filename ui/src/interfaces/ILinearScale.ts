@@ -6,7 +6,7 @@ interface ILinearScale {
   maxScale: number;
   minLabel: string;
   maxLabel: string;
-  answer: number | null;
+  answer: number | undefined;
   isRequired: boolean;
 }
 

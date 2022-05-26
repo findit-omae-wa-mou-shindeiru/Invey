@@ -210,6 +210,7 @@ const formDefaultState = (
           },
         ],
         isRequired: false,
+        answer: [],
       } as ICheckbox;
     case QuestionType.LinearScale:
       return {
@@ -220,7 +221,7 @@ const formDefaultState = (
         maxScale: 5,
         minLabel: "Minimum Label",
         maxLabel: "Maximum Label",
-        answer: null,
+        answer: undefined,
         isRequired: false,
       } as ILinearScale;
     case QuestionType.Dropdown:
