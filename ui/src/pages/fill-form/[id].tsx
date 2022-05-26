@@ -32,6 +32,20 @@ const randomizer = () => {
     });
 };
 
+const defaultAnswer = (type: keyof typeof QuestionType) => {
+  switch (QuestionType[type]) {
+    case QuestionType.ShortAnswer:
+    case QuestionType.Paragraph:
+    case QuestionType.Dropdown:
+    case QuestionType.MultipleChoice:
+      return "";
+    case QuestionType.Checkbox:
+      return [];
+    case QuestionType.LinearScale:
+      return undefined;
+  }
+};
+
 const FillFormDetail = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -73,6 +87,28 @@ const FillFormDetail = () => {
     setQuestions(newQuestions);
   };
 
+  const onClearAnswer = (idx: number) => {
+    if (!questions) {
+      return;
+    }
+
+    if (questions[idx].type === QuestionType.Checkbox) {
+      const newQuestions = [...questions];
+      newQuestions[idx].options = newQuestions[idx].options.map((e: { label: string; checked: boolean }) => {
+        return {
+          label: e.label,
+          checked: false,
+        }
+      });
+      setQuestions(newQuestions);
+      return;
+    }
+
+    const newQuestions = [...questions];
+    newQuestions[idx].answer = defaultAnswer(questions[idx].type);
+    setQuestions(newQuestions);
+  };
+
   return (
     <div className="page">
       <h1>Fill Form Detail</h1>
@@ -84,6 +120,7 @@ const FillFormDetail = () => {
               question,
               onChangeAnswer,
               idx,
+              onClearAnswer,
             });
           })}
       </div>
@@ -171,6 +208,7 @@ const questionBuilder = ({
   question,
   onChangeAnswer,
   idx,
+  onClearAnswer,
 }: {
   question: IQuestionType;
   onChangeAnswer: (
@@ -178,6 +216,7 @@ const questionBuilder = ({
     answer: string | { label: string; checked: boolean }[] | number | undefined
   ) => void;
   idx: number;
+  onClearAnswer: (idx: number) => void;
 }): JSX.Element | undefined => {
   switch (QuestionType[question.type as keyof typeof QuestionType]) {
     case QuestionType.ShortAnswer:
@@ -188,6 +227,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.Paragraph:
@@ -198,6 +238,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.MultipleChoice:
@@ -208,6 +249,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.Checkbox:
@@ -218,6 +260,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.Dropdown:
@@ -228,6 +271,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.LinearScale:
@@ -238,6 +282,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
   }

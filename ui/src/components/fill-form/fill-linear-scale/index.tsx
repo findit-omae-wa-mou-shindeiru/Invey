@@ -6,11 +6,13 @@ const FillLinearScale = ({
   index,
   onChangeAnswer,
   className,
+  onClearAnswer,
 }: {
   question: ILinearScale;
   index: number;
   onChangeAnswer: (index: number, answer: number) => void;
   className?: string;
+  onClearAnswer: (idx: number) => void;
 }) => {
   return (
     <div className={className + " " + styles.container}>
@@ -63,6 +65,16 @@ const FillLinearScale = ({
           <div className={styles.maxLabel}>{question.maxLabel}</div>
           <div className={styles.minLabel}>{question.minLabel}</div>
         </div>
+      </div>
+      <div className="mt-2 d-flex justify-content-end">
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            onClearAnswer(index);
+          }}
+        >
+          Clear answer
+        </button>
       </div>
     </div>
   );
