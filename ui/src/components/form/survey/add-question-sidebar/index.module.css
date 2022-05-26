@@ -2,6 +2,9 @@
   width: calc(10rem + 80px);
   min-width: 200px;
   background: #fff;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
 }
 
 .boxContainer {

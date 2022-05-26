@@ -1,6 +1,6 @@
-import styles from 'styles/form/survey.module.css';
-import { Form } from 'layout';
-import { QuestionType } from 'enums';
+import styles from "styles/form/survey.module.css";
+import { Form } from "layout";
+import { QuestionType } from "enums";
 import {
   AddQuestionSidebar,
   ShortAnswerQuestion,
@@ -8,80 +8,52 @@ import {
   MultipleChoiceQuestion,
   CheckboxQuestion,
   DropdownQuestion,
-} from 'components';
-import { useState } from 'react';
+  LinearScaleQuestion,
+} from "components";
+import { useState } from "react";
 import {
   IShortAnswer,
   IParagraph,
   ICheckbox,
   IDropdown,
   IMultipleChoice,
-  IStarRating,
+  ILinearScale,
   IQuestionType,
-} from 'interfaces';
+} from "interfaces";
 
 const Survey = () => {
-  const [surveyTitle, setSurveyTitle] = useState(
-    'Untitled Survey',
-  );
-  const [surveyDesc, setSurveyDesc] = useState(
-    'Survey Description',
-  );
-  const [questionStates, setQuestionStates] =
-    useState<IQuestionType[]>([]);
+  const [surveyTitle, setSurveyTitle] = useState("Untitled Survey");
+  const [surveyDesc, setSurveyDesc] = useState("Survey Description");
+  const [questionStates, setQuestionStates] = useState<IQuestionType[]>([]);
 
-  const onAddQuestion = (
-    type: keyof typeof QuestionType,
-  ) => {
+  const onAddQuestion = (type: keyof typeof QuestionType) => {
     const questionState = formDefaultState(type);
-    if (questionState)
-      setQuestionStates([
-        ...questionStates,
-        questionState,
-      ]);
+    if (questionState) setQuestionStates([...questionStates, questionState]);
   };
 
-  const onChange = (
-    index: number,
-    state: IQuestionType,
-  ) => {
-    const questionStatesCopy = [
-      ...questionStates,
-    ];
+  const onChange = (index: number, state: IQuestionType) => {
+    const questionStatesCopy = [...questionStates];
     questionStatesCopy[index] = state;
     setQuestionStates(questionStatesCopy);
   };
 
   const onDelete = (index: number) => {
-    const questionStatesCopy = [
-      ...questionStates,
-    ];
+    const questionStatesCopy = [...questionStates];
     questionStatesCopy.splice(index, 1);
     setQuestionStates(questionStatesCopy);
   };
 
   return (
     <Form>
-      <div
-        className={styles.container + ' d-flex'}
-      >
-        <AddQuestionSidebar
-          onAddQuestion={onAddQuestion}
-        />
+      <div className={styles.container + " d-flex"}>
+        <AddQuestionSidebar onAddQuestion={onAddQuestion} />
         <div className={styles.surveyContainer}>
-          <div
-            className={
-              styles.surveyInfoContainer +
-              ' w-100'
-            }
-          >
+          <div className={styles.surveyInfoContainer + " w-100"}>
             <div className={styles.surveyTitle}>
               <input
                 type="text"
                 value={surveyTitle}
-                onChange={(e) =>
-                  setSurveyTitle(e.target.value)
-                }
+                onChange={(e) => setSurveyTitle(e.target.value)}
                 placeholder="Survey Title"
               />
             </div>
@@ -89,9 +61,7 @@ const Survey = () => {
               <input
                 type="text"
                 value={surveyDesc}
-                onChange={(e) =>
-                  setSurveyDesc(e.target.value)
-                }
+                onChange={(e) => setSurveyDesc(e.target.value)}
                 placeholder="Survey Description"
               />
             </div>
@@ -99,20 +69,18 @@ const Survey = () => {
           <div
             className={
               styles.questionContainer +
-              ' w-100 d-flex flex-column align-items-center'
+              " w-100 d-flex flex-column align-items-center"
             }
           >
-            {questionStates.map(
-              (questionState, index) => {
-                return formBuilder(
-                  questionState,
-                  index,
-                  onChange,
-                  onDelete,
-                  styles.question,
-                );
-              },
-            )}
+            {questionStates.map((questionState, index) => {
+              return formBuilder(
+                questionState,
+                index,
+                onChange,
+                onDelete,
+                styles.question
+              );
+            })}
           </div>
         </div>
       </div>
@@ -123,26 +91,17 @@ const Survey = () => {
 const formBuilder = (
   questionState: IQuestionType,
   index: number,
-  onChange: (
-    index: number,
-    state: IQuestionType,
-  ) => void,
+  onChange: (index: number, state: IQuestionType) => void,
   onDelete: (index: number) => void,
-  className: string,
+  className: string
 ) => {
-  switch (
-    QuestionType[
-      questionState.type as keyof typeof QuestionType
-    ]
-  ) {
+  switch (QuestionType[questionState.type as keyof typeof QuestionType]) {
     case QuestionType.ShortAnswer:
       return (
         <ShortAnswerQuestion
           key={index}
           index={index}
-          questionState={
-            questionState as IShortAnswer
-          }
+          questionState={questionState as IShortAnswer}
           onChange={onChange}
           onDelete={onDelete}
           className={className}
@@ -153,9 +112,7 @@ const formBuilder = (
         <ParagraphQuestion
           key={index}
           index={index}
-          questionState={
-            questionState as IParagraph
-          }
+          questionState={questionState as IParagraph}
           onChange={onChange}
           onDelete={onDelete}
           className={className}
@@ -166,9 +123,7 @@ const formBuilder = (
         <MultipleChoiceQuestion
           key={index}
           index={index}
-          questionState={
-            questionState as IMultipleChoice
-          }
+          questionState={questionState as IMultipleChoice}
           onChange={onChange}
           onDelete={onDelete}
           className={className}
@@ -179,29 +134,29 @@ const formBuilder = (
         <CheckboxQuestion
           key={index}
           index={index}
-          questionState={
-            questionState as ICheckbox
-          }
+          questionState={questionState as ICheckbox}
           onChange={onChange}
           onDelete={onDelete}
           className={className}
         />
       );
-    case QuestionType.StarRating:
+    case QuestionType.LinearScale:
       return (
-        <div>
-          star rating
-          {JSON.stringify(questionState)}
-        </div>
+        <LinearScaleQuestion
+          key={index}
+          index={index}
+          questionState={questionState as ILinearScale}
+          onChange={onChange}
+          onDelete={onDelete}
+          className={className}
+        />
       );
     case QuestionType.Dropdown:
       return (
         <DropdownQuestion
           key={index}
           index={index}
-          questionState={
-            questionState as IDropdown
-          }
+          questionState={questionState as IDropdown}
           onChange={onChange}
           onDelete={onDelete}
           className={className}
@@ -211,69 +166,70 @@ const formBuilder = (
 };
 
 const formDefaultState = (
-  type: keyof typeof QuestionType,
+  type: keyof typeof QuestionType
 ): IQuestionType | undefined => {
   switch (QuestionType[type]) {
     case QuestionType.ShortAnswer:
       return {
         type,
-        title: 'Short Answer Question',
-        description: 'description',
-        answer: '',
+        title: "Short Answer Question",
+        description: "description",
+        answer: "",
         isRequired: false,
       } as IShortAnswer;
     case QuestionType.Paragraph:
       return {
         type,
-        title: 'Paragraph Question',
-        description: 'description',
-        answer: '',
+        title: "Paragraph Question",
+        description: "description",
+        answer: "",
         isRequired: false,
       } as IParagraph;
     case QuestionType.MultipleChoice:
       return {
         type,
-        title: 'Multiple Choice Question',
-        description: 'description',
-        options: ['option 1', 'option 2'],
-        answer: '',
+        title: "Multiple Choice Question",
+        description: "description",
+        options: ["option 1", "option 2"],
+        answer: "",
         isRequired: false,
       } as IMultipleChoice;
     case QuestionType.Checkbox:
       return {
         type,
-        title: 'Checkbox Question',
-        description: 'description',
+        title: "Checkbox Question",
+        description: "description",
         options: [
           {
-            label: 'option 1',
+            label: "option 1",
             checked: false,
           },
           {
-            label: 'option 2',
+            label: "option 2",
             checked: false,
           },
         ],
         isRequired: false,
       } as ICheckbox;
-    case QuestionType.StarRating:
+    case QuestionType.LinearScale:
       return {
         type,
-        title: 'Star Rating Question',
-        description: 'description',
-        scale: 5,
-        minLabel: 'Minimum Label',
-        maxLabel: 'Maximum Label',
+        title: "Linear Scale Question",
+        description: "description",
+        minScale: 1,
+        maxScale: 5,
+        minLabel: "Minimum Label",
+        maxLabel: "Maximum Label",
         answer: null,
         isRequired: false,
-      } as IStarRating;
+      } as ILinearScale;
     case QuestionType.Dropdown:
       return {
         type,
-        title: 'Dropdown Question',
-        description: 'description',
-        options: ['option 1', 'option 2'],
-        answer: '',
+        title: "Dropdown Question",
+        description: "description",
+        options: ["option 1", "option 2"],
+        answer: "",
         isRequired: false,
       } as IDropdown;
   }

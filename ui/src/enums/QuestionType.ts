@@ -3,7 +3,7 @@ const QuestionType = {
   Paragraph: 'Paragraph',
   MultipleChoice: 'Multiple Choice',
   Checkbox: 'Checkbox',
-  StarRating: 'Star Rating',
+  LinearScale: 'Linear Scale',
   Dropdown: 'Dropdown',
 };
 

@@ -6,7 +6,7 @@ import IParagraph from './IParagraph';
 import ICheckbox from './ICheckbox';
 import IDropdown from './IDropdown';
 import IMultipleChoice from './IMultipleChoice';
-import IStarRating from './IStarRating';
+import ILinearScale from './ILinearScale';
 import IQuestionType from './IQuestionType';
 
 export type {
@@ -18,6 +18,6 @@ export type {
   ICheckbox,
   IDropdown,
   IMultipleChoice,
-  IStarRating,
+  ILinearScale,
   IQuestionType,
 };

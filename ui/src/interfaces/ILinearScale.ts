@@ -1,12 +1,13 @@
-interface IStarRating {
-  type: 'StarRating';
+interface ILinearScale {
+  type: 'LinearScale';
   title: string;
   description: string;
-  scale: number;
+  minScale: number;
+  maxScale: number;
   minLabel: string;
   maxLabel: string;
   answer: number | null;
   isRequired: boolean;
 }
 
-export default IStarRating;
+export default ILinearScale;

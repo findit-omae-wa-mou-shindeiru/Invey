@@ -14,6 +14,7 @@ import ParagraphQuestion from './form/survey/paragraph-question';
 import MultipleChoiceQuestion from './form/survey/multiple-choice-question';
 import CheckboxQuestion from './form/survey/checkbox-question';
 import DropdownQuestion from './form/survey/dropdown-question';
+import LinearScaleQuestion from './form/survey/linear-scale-question';
 
 export {
   Navbar,
@@ -32,4 +33,5 @@ export {
   MultipleChoiceQuestion,
   CheckboxQuestion,
   DropdownQuestion,
+  LinearScaleQuestion,
 };

@@ -11,7 +11,7 @@ const getImgPath = (type: string) => {
       return '/multiple-choice-question-icon.svg';
     case 'Checkbox':
       return '/checkbox-question-icon.svg';
-    case 'StarRating':
+    case 'LinearScale':
       return '/star-rating-question-icon.svg';
     case 'Dropdown':
       return '/dropdown-question-icon.svg';
@@ -53,7 +53,7 @@ const AddQuestionSidebar = ({
                 />
               </div>
               <div className={styles.typeLabel}>
-                {type}
+                {QuestionType[type]}
               </div>
             </div>
           </div>
