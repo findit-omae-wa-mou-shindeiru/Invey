@@ -1,32 +1,37 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import styles from './index.module.css';
-import { UserInfo } from 'components';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import styles from "./index.module.css";
+import { UserInfo } from "components";
+
+const navItems = [
+  {
+    label: "Summary",
+    link: "summary",
+  },
+  {
+    label: "Survey",
+    link: "survey",
+  },
+  {
+    label: "Analytics",
+    link: "analytics",
+  },
+];
+
+const linkNav = (idx: number, id: string | string[] | undefined) => {
+  return `/form/${id}/${navItems[idx].link}`;
+};
 
 const FormNav = () => {
-  const navItems = [
-    {
-      label: 'Summary',
-      link: '/form/summary',
-    },
-    {
-      label: 'Survey',
-      link: '/form/survey',
-    },
-    {
-      label: 'Analytics',
-      link: '/form/analytics',
-    },
-  ];
-
   const router = useRouter();
+  const { id } = router.query;
 
   return (
     <div className={styles.container}>
       <div
         className={
           styles.topContainer +
-          ' d-flex justify-content-between align-items-center'
+          " d-flex justify-content-between align-items-center"
         }
       >
         <div className={styles.topLeftContainer}>
@@ -39,22 +44,20 @@ const FormNav = () => {
       <div
         className={
           styles.bottomContainer +
-          ' d-flex justify-content-around align-items-center'
+          " d-flex justify-content-around align-items-center"
         }
       >
-        {navItems.map((item) => {
+        {navItems.map((item, idx) => {
           return (
             <div
               key={item.link}
               className={
                 styles.navItem +
-                ' ' +
-                (router.pathname === item.link
-                  ? styles.navItemActive
-                  : '')
+                " " +
+                (router.pathname === item.link ? styles.navItemActive : "")
               }
             >
-              <Link href={item.link}>
+              <Link href={linkNav(idx, id)}>
                 <a>{item.label}</a>
               </Link>
             </div>

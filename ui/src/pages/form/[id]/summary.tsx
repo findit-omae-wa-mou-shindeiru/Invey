@@ -1,4 +1,3 @@
-// import Link from "next/link";
 import { Form } from "layout";
 import styles from "styles/form/summary.module.css";
 import { UploadImg, SurveySummaryForm } from "components";

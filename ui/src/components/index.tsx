@@ -18,6 +18,9 @@ import LinearScaleQuestion from "./form/survey/linear-scale-question";
 import AnalyticsSidebar from "./form/analytics/analytics-sidebar";
 import UploadImg from "./form/summary/upload-img";
 import SurveySummaryForm from "./form/summary/survey-summary-form";
+import IndividualAnalytics from "./form/analytics/individual-analytics";
+import OverviewAnalytics from "./form/analytics/overview-analytics";
+import QuestionAnalytics from "./form/analytics/question-analytics";
 
 export {
   Navbar,
@@ -40,4 +43,7 @@ export {
   AnalyticsSidebar,
   UploadImg,
   SurveySummaryForm,
+  IndividualAnalytics,
+  OverviewAnalytics,
+  QuestionAnalytics,
 };
