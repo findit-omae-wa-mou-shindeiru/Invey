@@ -1,0 +1,9 @@
+.container {
+  flex-grow: 2;
+}
+
+.contentContainer {
+  flex-grow: 2;
+  gap: 1.5rem;
+  padding: 20px 1.5rem;
+}
