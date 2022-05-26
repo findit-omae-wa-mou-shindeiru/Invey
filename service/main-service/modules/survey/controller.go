@@ -2,6 +2,7 @@ package survey
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"question-service/models"
 	"question-service/modules/auth"
@@ -53,7 +54,20 @@ func CreateSurvey(c *gin.Context) {
         return
     }
 
-    token := strings.Split(c.Request.Header["Authorization"][0], " ")[1]
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+    }
+
+    token := bearer_token[1]
 
     user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
 
@@ -108,4 +122,42 @@ func GetFilters(c *gin.Context) {
         "audience": audience,
         "category": category,
     })
+}
+
+func GetSurveys(c *gin.Context) {
+    var filter SurveyFilter
+
+    err := c.ShouldBindJSON(&filter)
+
+    if err != nil {
+        c.String(400, "Missing payload")
+        return
+    }
+
+    var survey []models.Survey
+
+
+    res := models.DB.Preload("Category")
+
+    if len(filter.CategoryId) != 0 {
+        res = res.Where("surveys.id IN (SELECT survey_id FROM survey_category WHERE survey_category_id IN ?)", filter.CategoryId)
+    }
+
+    res = res.Preload("Audience")
+    if len(filter.AudienceId) != 0 {
+        res = res.Where("surveys.id IN (SELECT survey_id FROM survey_audience WHERE survey_audience_id IN ?)", filter.AudienceId)
+    }
+        
+    res = res.Preload("Gender")
+    if len(filter.GenderId) != 0 {
+        res = res.Where("surveys.id IN (SELECT survey_id FROM survey_gender WHERE survey_gender_id IN ?)", filter.GenderId)
+    }
+        
+    res = res.Find(&survey)
+
+    if res.Error != nil {
+        c.JSON(500, res.Error.Error())
+    }
+
+    c.JSON(200, survey)
 }

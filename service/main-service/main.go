@@ -18,6 +18,7 @@ func main() {
     r.POST("/auth/register", auth.Register)
     r.GET("/survey-filters", survey.GetFilters)
     r.POST("/survey", survey.CreateSurvey)
+    r.POST("/survey/filters", survey.GetSurveys)
 	
     fmt.Println("Running server on 3000")
     r.Run(":3000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
