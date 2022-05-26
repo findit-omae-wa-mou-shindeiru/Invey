@@ -1,0 +1,21 @@
+.container {
+  padding: 1.5rem 2.5rem;
+}
+
+.title > h1 {
+  font-style: normal;
+  font-style: normal;
+  font-weight: 500;
+  font-size: calc(14px + 0.5rem);
+  line-height: calc(18px + 0.5rem);
+
+  color: #293072;
+}
+
+.content {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 650px;
+  width: 90%;
+}
