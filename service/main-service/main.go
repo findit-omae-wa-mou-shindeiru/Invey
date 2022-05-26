@@ -25,9 +25,9 @@ func main() {
     r.GET("/survey-question/:id", survey.GetSurveyQuestionBySurveyId)
     r.GET("/survey/:id", survey.GetSurveyById)
     r.GET("/user/profile", user.GetProfile)
+    r.PUT("/user/profile", user.UpdateProfile)
     r.GET("/user/surveys", user.GetSurveys)
-    // TODO: user update profile
-	
+
     fmt.Println("Running server on 3000")
     r.Run(":3000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
