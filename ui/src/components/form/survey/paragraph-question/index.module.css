@@ -59,6 +59,7 @@
 .answerContainer textarea {
   padding-bottom: 4px !important;
   border-bottom: 2px solid #293072 !important;
+  resize: none;
 }
 
 .btnEdit {
@@ -69,4 +70,17 @@
 .btnEdit:hover {
   color: #fff;
   background-color: rgb(41, 48, 114, 1);
+}
+
+.requiredCheckbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.requiredCheckbox div {
+  margin-left: 6px;
+  font-weight: 400;
+  font-size: calc(9px + 0.5rem);
+  line-height: calc(12px + 0.5rem);
+  color: #293072;
 }

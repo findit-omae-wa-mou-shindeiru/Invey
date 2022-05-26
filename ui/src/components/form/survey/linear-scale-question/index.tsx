@@ -165,20 +165,30 @@ const LinearScaleQuestion = ({
         </div>
       )}
       <div className={styles.btnContainer + " d-flex justify-content-between"}>
-        <button
-          type="button"
-          className={styles.btnEdit + " btn"}
-          onClick={() => {
-            if (questionState.minScale >= questionState.maxScale) {
-              alert("min scale must be less than max scale");
-              return;
-            }
-
-            setEditing(!editing)
-          }}
-        >
-          {editing ? "Done" : "Edit"}
-        </button>
+        <div className="d-flex align-items-center">
+          <button
+            type="button"
+            className={styles.btnEdit + " btn me-3"}
+            onClick={() => setEditing(!editing)}
+          >
+            {editing ? "Done" : "Edit"}
+          </button>
+          {editing && (
+            <div className={styles.requiredCheckbox + " d-flex"}>
+              <input
+                type="checkbox"
+                checked={questionState.isRequired}
+                onChange={() => {
+                  onChange(index, {
+                    ...questionState,
+                    isRequired: !questionState.isRequired,
+                  });
+                }}
+              />
+              <div>Required</div>
+            </div>
+          )}
+        </div>
 
         <button
           type="button"

@@ -32,6 +32,20 @@ const randomizer = () => {
     });
 };
 
+const defaultAnswer = (type: keyof typeof QuestionType) => {
+  switch (QuestionType[type]) {
+    case QuestionType.ShortAnswer:
+    case QuestionType.Paragraph:
+    case QuestionType.Dropdown:
+    case QuestionType.MultipleChoice:
+      return "";
+    case QuestionType.Checkbox:
+      return [];
+    case QuestionType.LinearScale:
+      return undefined;
+  }
+};
+
 const FillFormDetail = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -73,6 +87,45 @@ const FillFormDetail = () => {
     setQuestions(newQuestions);
   };
 
+  const onClearAnswer = (idx: number) => {
+    if (!questions) {
+      return;
+    }
+
+    if (questions[idx].type === QuestionType.Checkbox) {
+      const newQuestions = [...questions];
+      newQuestions[idx].options = newQuestions[idx].options.map(
+        (e: { label: string; checked: boolean }) => {
+          return {
+            label: e.label,
+            checked: false,
+          };
+        }
+      );
+      setQuestions(newQuestions);
+      return;
+    }
+
+    const newQuestions = [...questions];
+    newQuestions[idx].answer = defaultAnswer(questions[idx].type);
+    setQuestions(newQuestions);
+  };
+
+  const onSubmit = () => {
+    console.log(questions);
+    if (
+      questions.some((question) => {
+        return (
+          question.isRequired &&
+          (!question.answer || question.answer !== 0) &&
+          question.answer.length === 0
+        );
+      })
+    ) {
+      alert("Please fill all required fields");
+    }
+  };
+
   return (
     <div className="page">
       <h1>Fill Form Detail</h1>
@@ -84,11 +137,12 @@ const FillFormDetail = () => {
               question,
               onChangeAnswer,
               idx,
+              onClearAnswer,
             });
           })}
       </div>
       <div>
-        <button onClick={() => console.log(questions)}>submit</button>
+        <button onClick={onSubmit}>submit</button>
       </div>
     </div>
   );
@@ -102,7 +156,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
       } as IShortAnswer;
     case QuestionType.Paragraph:
       return {
@@ -110,7 +164,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
       } as IShortAnswer;
     case QuestionType.MultipleChoice:
       return {
@@ -118,7 +172,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
         options: ["option 1", "option 2", "option 3"],
       } as IMultipleChoice;
     case QuestionType.Checkbox:
@@ -127,7 +181,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: [],
-        isRequired: false,
+        isRequired: true,
         options: [
           {
             label: "option 1",
@@ -149,7 +203,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: "",
-        isRequired: false,
+        isRequired: true,
         options: ["option 1", "option 2", "option 3"],
       } as IDropdown;
     case QuestionType.LinearScale:
@@ -158,7 +212,7 @@ const formGenerator = (type: keyof typeof QuestionType): IQuestionType => {
         title: "Ini title",
         description: "Ini description",
         answer: undefined,
-        isRequired: false,
+        isRequired: true,
         minScale: 1,
         maxScale: 5,
         minLabel: "Minimum Label",
@@ -171,6 +225,7 @@ const questionBuilder = ({
   question,
   onChangeAnswer,
   idx,
+  onClearAnswer,
 }: {
   question: IQuestionType;
   onChangeAnswer: (
@@ -178,6 +233,7 @@ const questionBuilder = ({
     answer: string | { label: string; checked: boolean }[] | number | undefined
   ) => void;
   idx: number;
+  onClearAnswer: (idx: number) => void;
 }): JSX.Element | undefined => {
   switch (QuestionType[question.type as keyof typeof QuestionType]) {
     case QuestionType.ShortAnswer:
@@ -188,6 +244,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.Paragraph:
@@ -198,6 +255,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.MultipleChoice:
@@ -208,6 +266,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.Checkbox:
@@ -218,6 +277,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.Dropdown:
@@ -228,6 +288,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
     case QuestionType.LinearScale:
@@ -238,6 +299,7 @@ const questionBuilder = ({
           onChangeAnswer={onChangeAnswer}
           index={idx}
           className={styles.question}
+          onClearAnswer={onClearAnswer}
         />
       );
   }

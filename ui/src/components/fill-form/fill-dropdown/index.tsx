@@ -7,11 +7,13 @@ const FillDropdown = ({
   index,
   onChangeAnswer,
   className,
+  onClearAnswer,
 }: {
   question: IDropdown;
   index: number;
   onChangeAnswer: (index: number, answer: string) => void;
   className?: string;
+  onClearAnswer: (idx: number) => void;
 }) => {
   return (
     <div className={className + " " + styles.container}>
@@ -51,6 +53,16 @@ const FillDropdown = ({
             })}
           </Dropdown.Menu>
         </Dropdown>
+      </div>
+      <div className="mt-2 d-flex justify-content-end">
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            onClearAnswer(index);
+          }}
+        >
+          Clear answer
+        </button>
       </div>
     </div>
   );

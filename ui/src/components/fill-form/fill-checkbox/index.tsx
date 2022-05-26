@@ -6,6 +6,7 @@ const FillCheckbox = ({
   index,
   onChangeAnswer,
   className,
+  onClearAnswer,
 }: {
   question: ICheckbox;
   index: number;
@@ -14,6 +15,7 @@ const FillCheckbox = ({
     answer: { label: string; checked: boolean }[]
   ) => void;
   className?: string;
+  onClearAnswer: (idx: number) => void;
 }) => {
   return (
     <div className={className + " " + styles.container}>
@@ -58,6 +60,16 @@ const FillCheckbox = ({
             </div>
           );
         })}
+      </div>
+      <div className="mt-2 d-flex justify-content-end">
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            onClearAnswer(index);
+          }}
+        >
+          Clear answer
+        </button>
       </div>
     </div>
   );
