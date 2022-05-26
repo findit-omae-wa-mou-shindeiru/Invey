@@ -2,14 +2,18 @@ package survey
 
 import (
 	"bytes"
+	"context"
 	"io/ioutil"
 	"question-service/models"
 	"question-service/modules/auth"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/thoas/go-funk"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateSurvey(c *gin.Context) {
@@ -45,7 +49,6 @@ func CreateSurvey(c *gin.Context) {
             }
         }).([]models.SurveyGender)
 
-
     question_id, err := CreateQuestion(body_byte)
 
     if err != nil {
@@ -53,7 +56,20 @@ func CreateSurvey(c *gin.Context) {
         return
     }
 
-    token := strings.Split(c.Request.Header["Authorization"][0], " ")[1]
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+    }
+
+    token := bearer_token[1]
 
     user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
 
@@ -108,4 +124,113 @@ func GetFilters(c *gin.Context) {
         "audience": audience,
         "category": category,
     })
+}
+
+func GetSurveys(c *gin.Context) {
+    var filter SurveyFilter
+
+    err := c.ShouldBindJSON(&filter)
+
+    if err != nil {
+        c.String(400, "Missing payload")
+        return
+    }
+
+    var survey []models.Survey
+
+    res := models.DB.Preload("Category")
+
+    if len(filter.CategoryId) != 0 {
+        res = res.Where("surveys.id IN (SELECT survey_id FROM survey_category WHERE survey_category_id IN ?)", filter.CategoryId)
+    }
+
+    res = res.Preload("Audience")
+    if len(filter.AudienceId) != 0 {
+        res = res.Where("surveys.id IN (SELECT survey_id FROM survey_audience WHERE survey_audience_id IN ?)", filter.AudienceId)
+    }
+        
+    res = res.Preload("Gender")
+    if len(filter.GenderId) != 0 {
+        res = res.Where("surveys.id IN (SELECT survey_id FROM survey_gender WHERE survey_gender_id IN ?)", filter.GenderId)
+    }
+        
+    res = res.Find(&survey)
+
+    if res.Error != nil {
+        c.JSON(500, res.Error.Error())
+    }
+
+    c.JSON(200, survey)
+}
+
+func GetSurveyById(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64) 
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    var survey models.Survey
+
+    models.DB.
+    Preload("Category").
+    Preload("Audience").
+    Preload("Gender").
+    First(&survey, id)
+    
+    c.JSON(200, survey)
+}
+
+
+func GetSurveyQuestionBySurveyId(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("id"), 10, 64) 
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    var survey models.Survey
+
+    models.DB.First(&survey, id)
+
+	coll := models.MongoClient.Database("invey").Collection("question")
+
+	var result bson.M
+
+    objectId, err := primitive.ObjectIDFromHex(survey.QuestionsId)
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    err = coll.FindOne(context.TODO(), bson.M{"_id": objectId}).Decode(&result)
+
+    if err != nil {
+        c.JSON(400, err.Error())
+        return
+    }
+
+    c.JSON(200, result)
+}
+
+func CreateAnswerToSurvey(c *gin.Context) {
+    id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
+    body_byte, _ := ioutil.ReadAll(c.Request.Body)
+
+    if err != nil {
+        c.String(400, err.Error())
+        return
+    }
+
+    _, err = CreateAnswer(id, body_byte)
+
+    if err != nil {
+        c.String(400, err.Error())
+        return
+    }
+
+    c.String(200, "Successfully created answer")
 }
