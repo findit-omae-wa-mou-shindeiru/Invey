@@ -17,7 +17,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// TODO: use reward point to create survey
 func CreateSurvey(c *gin.Context) {
     body_byte, _ := ioutil.ReadAll(c.Request.Body)
 
@@ -81,6 +80,15 @@ func CreateSurvey(c *gin.Context) {
         return
     }
 
+    var user models.User
+    
+    res := models.DB.Find(&user, user_claim.ID)
+
+    if res.Error != nil {
+        c.String(500, res.Error.Error())
+        return 
+    }
+
     survey := models.Survey {
         Title: payload.Title,
         Description: payload.Description,
@@ -89,6 +97,7 @@ func CreateSurvey(c *gin.Context) {
         Audience: audience,
         Gender: gender,
         OwnerId: user_claim.ID,
+        RewardPoint: payload.RewardPoint,
     }
 
     result := models.DB.Create(&survey)
@@ -97,6 +106,10 @@ func CreateSurvey(c *gin.Context) {
         c.String(500, "Error inserting survey")
         return
     }
+
+    user.RewardPoint -= payload.RewardPoint
+
+    models.DB.Save(&user)
 
     c.JSON(200, survey)
 }
@@ -227,14 +240,45 @@ func CreateAnswerToSurvey(c *gin.Context) {
     id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
     body_byte, _ := ioutil.ReadAll(c.Request.Body)
 
-    var survey models.Survey
-
-    // TODO: Use to get survey reward point then increment user reward point
-    models.DB.First(&survey, id)
-
     if err != nil {
         c.String(400, err.Error())
         return
+    }
+
+    var survey models.Survey
+
+    models.DB.First(&survey, id)
+
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(402, err_token.Error())
+        return
+    }
+
+    var user models.User
+    
+    res := models.DB.Find(&user, user_claim.ID)
+
+    if res.Error != nil {
+        c.String(500, res.Error.Error())
+        return 
     }
 
     _, err = CreateAnswer(id, body_byte)
@@ -243,6 +287,10 @@ func CreateAnswerToSurvey(c *gin.Context) {
         c.String(400, err.Error())
         return
     }
+
+    user.RewardPoint += survey.RewardPoint
+
+    models.DB.Debug().Save(&user)
 
     c.String(200, "Successfully created answer")
 }
@@ -277,7 +325,6 @@ func GetSurveyAnswerBySurveyId(c *gin.Context) {
     c.JSON(200, result)
 }
 
-// TODO: update survey
 func UpdateSurvey(c *gin.Context) {
     survey_id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
 
