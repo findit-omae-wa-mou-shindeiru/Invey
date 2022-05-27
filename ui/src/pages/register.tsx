@@ -33,6 +33,42 @@ const Register = () => {
         defaultValue: "",
         type: "password",
       },
+      {
+        key: "position",
+        placeholder: "Select Position",
+        defaultValue: "",
+        type: "dropdown",
+        options: [
+          {
+            label: "Student",
+            id: "STUDENT",
+          },
+          {
+            label: "Teacher",
+            id: "TEACHER",
+          },
+          {
+            label: "Worker",
+            id: "WORKER",
+          },
+        ],
+      },
+      {
+        key: "gender",
+        placeholder: "Select Gender",
+        defaultValue: "",
+        type: "dropdown",
+        options: [
+          {
+            label: "Male",
+            id: "MALE",
+          },
+          {
+            label: "Female",
+            id: "FEMALE",
+          },
+        ],
+      },
     ],
     btn: "Register",
     linkLbl1: "Already have an account? ",

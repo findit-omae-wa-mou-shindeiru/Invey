@@ -6,6 +6,7 @@ interface IContent {
     placeholder: string;
     defaultValue: string;
     type: string;
+    options?: { label: string; id: string }[];
   }[];
   btn: string;
   linkLbl1: string;
