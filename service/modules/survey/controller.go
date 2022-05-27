@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"question-service/models"
 	"question-service/modules/auth"
@@ -17,6 +18,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+//TODO: create checking if user reward point enough
 func CreateSurvey(c *gin.Context) {
     body_byte, _ := ioutil.ReadAll(c.Request.Body)
 
@@ -290,7 +292,13 @@ func CreateAnswerToSurvey(c *gin.Context) {
 
     user.RewardPoint += survey.RewardPoint
 
-    models.DB.Debug().Save(&user)
+    models.DB.Save(&user)
+
+    models.DB.Create(&models.AnswerNotification {
+        Payload: fmt.Sprintf("%s %s has filled your survey", user.FirstName, user.SecondName),
+        FillerId: user.ID,
+        SurveyOwnerId: survey.OwnerId,
+    })
 
     c.String(200, "Successfully created answer")
 }
@@ -435,3 +443,5 @@ func UpdateQuestion(c *gin.Context) {
 
     c.JSON(200, result)
 }
+
+//TODO: create endpoint to check user eligible to fill form

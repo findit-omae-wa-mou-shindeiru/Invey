@@ -208,3 +208,44 @@ func EditRewardPoint(c *gin.Context) {
     c.JSON(200, user)
 }
 
+//TODO: create update user status
+
+//TODO: add notification read endpoint
+func CountNotification(c *gin.Context) {
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(401, err_token.Error())
+        return
+    }
+
+    var count int64
+
+    err := models.DB.Model(&models.AnswerNotification{}).
+    Where("survey_owner_id = ?", user_claim.ID).
+    Count(&count)
+
+    if err.Error != nil {
+        c.String(500, err.Error.Error())
+    }
+
+    c.JSON(200, gin.H {
+        "total": count,
+    })
+}

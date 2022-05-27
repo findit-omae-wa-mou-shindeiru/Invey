@@ -2,6 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
+//TODO: add max user to answer
 type Survey struct {
   gorm.Model
   ID            uint                `gorm:"primaryKey" json:"id"`
@@ -31,4 +32,14 @@ type SurveyGender struct {
   gorm.Model
   ID   uint   `gorm:"primaryKey" json:"id"`
   Name string `json:"name" binding:"required"`
+}
+
+type AnswerNotification struct {
+  gorm.Model
+  ID            uint   `gorm:"primaryKey" json:"id"`
+  Payload       string `json:"payload" binding:"required"`
+  FillerId      uint   `json:"filler_id" binding:"required"`
+  Filler        User
+  SurveyOwnerId uint   `json:"survey_owner_id" binding:"required"`
+  SurveyOwner   User
 }
