@@ -2,7 +2,6 @@ package models
 
 import "gorm.io/gorm"
 
-//TODO: add max user to answer
 type Survey struct {
   gorm.Model
   ID            uint                `gorm:"primaryKey" json:"id"`
@@ -11,6 +10,7 @@ type Survey struct {
   QuestionsId   string              `json:"question_id" binding:"required"`
   OwnerId       uint                `json:"owner_id"`
   RewardPoint   int                 `json:"reward_point" binding:"required"`
+  MaxAnswer     uint                `json:"max_answer" binding:"required"`
   Category      []SurveyCategory    `gorm:"many2many:survey_category" json:"category" binding:"required"`
   Audience      []SurveyAudience    `gorm:"many2many:survey_audience" json:"audience" binding:"required"`
   Gender        []SurveyGender      `gorm:"many2many:survey_gender" json:"gender" binding:"required"`

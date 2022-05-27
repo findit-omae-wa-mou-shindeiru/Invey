@@ -2,7 +2,6 @@ package models
 
 import "gorm.io/gorm"
 
-//TODO: add user status
 type User struct {
   gorm.Model
   ID            uint           `gorm:"primaryKey" json:"id"`
@@ -18,4 +17,6 @@ type User struct {
   Position      SurveyAudience `json:"position" binding:"required"`
   Surveys       []Survey       `gorm:"foreignKey:OwnerId;"  json:"surveys"`
   PhotoURL      string         `json:"photo_url" binding:"required"`
+  IsPremium     bool           `json:"is_premium" binding:"required"`
 }
+

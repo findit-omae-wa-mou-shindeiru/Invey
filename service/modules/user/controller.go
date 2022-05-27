@@ -208,9 +208,6 @@ func EditRewardPoint(c *gin.Context) {
     c.JSON(200, user)
 }
 
-//TODO: create update user status
-
-//TODO: add notification read endpoint
 func CountNotification(c *gin.Context) {
     authorization_header := c.Request.Header["Authorization"]
 
