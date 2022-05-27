@@ -2,6 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
+//TODO: add user status
 type User struct {
   gorm.Model
   ID            uint           `gorm:"primaryKey" json:"id"`

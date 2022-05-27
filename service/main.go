@@ -48,6 +48,8 @@ func main() {
     r.PUT("/user/profile", user.UpdateProfile)
     r.GET("/user/surveys", user.GetSurveys)
     r.POST("/user/reward-point", user.EditRewardPoint)
+    r.GET("/user/total-notification", user.CountNotification)
+    r.GET("/user/read-notification", user.ReadNotification)
 
     port := os.Getenv("PORT")
 
