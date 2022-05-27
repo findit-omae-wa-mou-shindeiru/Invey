@@ -96,7 +96,7 @@ const Summary = () => {
           </div> */}
         </div>
         <div className={styles.rightContainer}>
-          <UploadImg file={file} setFile={setFile} />
+          <UploadImg title={"Cover Pictures"} file={file} setFile={setFile} />
         </div>
       </div>
     </Form>

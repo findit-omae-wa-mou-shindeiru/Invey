@@ -1,9 +1,11 @@
 import styles from "./index.module.css";
 
 const UploadImg = ({
+  title,
   file,
   setFile,
 }: {
+  title: string;
   file: File | undefined;
   setFile: (file: File | undefined) => void;
 }) => {
@@ -11,7 +13,7 @@ const UploadImg = ({
     <div className={styles.frame}>
       <div className={styles.center}>
         <div className={styles.title}>
-          <h1>Cover Picture</h1>
+          <h1>{title}</h1>
         </div>
 
         <div className={styles.dropzone}>

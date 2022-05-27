@@ -34,7 +34,7 @@ const TopUpForm = ({ onVerify }: { onVerify: (point: number) => void }) => {
   );
 
   const convertPointToRp = (point: number) => {
-    const rp = point * 7000;
+    const rp = point * 1000;
 
     // parse to rupiah per thousand
     return `Rp ${rp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")},00`;

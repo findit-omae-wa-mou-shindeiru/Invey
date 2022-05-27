@@ -1,0 +1,106 @@
+.container {
+  padding: 1rem 0 3rem;
+}
+
+.leftContainer {
+  flex-grow: 2;
+}
+
+.generalFormContainer {
+  background: #ffffff;
+  box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  height: fit-content;
+}
+
+.titleContainer {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #999;
+}
+
+.title {
+  font-weight: 400;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: rgba(41, 48, 114, 0.75);
+}
+
+.formContainer {
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.formContainer > * {
+  margin-bottom: 1rem;
+}
+
+.formLabel {
+  font-weight: 500;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: rgba(41, 48, 114, 0.75);
+  margin-bottom: 8px;
+}
+
+.inputContainer {
+  gap: 6%;
+}
+
+.inputContainer > * {
+  width: 47%;
+}
+
+.inputContainer input {
+  width: 100%;
+}
+
+.generalFormContainer input,
+.generalFormContainer textarea {
+  font-weight: 400;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: #5f6495;
+}
+
+.generalFormContainer input::placeholder,
+.generalFormContainer textarea::placeholder {
+  font-weight: 400;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: rgba(128, 128, 130, 0.75);
+}
+
+.generalFormContainer input[type="text"],
+.generalFormContainer input[type="password"] {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.generalFormContainer textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.categoriesForm {
+  gap: 6%;
+}
+
+.categoriesForm > * {
+  width: 47%;
+}
+
+.btnSave {
+  width: 152px;
+  height: 41px;
+  background: #293072;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+
+  color: #ffffff;
+}

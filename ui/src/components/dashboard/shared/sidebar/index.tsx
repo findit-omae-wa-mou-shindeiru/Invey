@@ -26,7 +26,7 @@ const Sidebar = ({
       img: '/manage',
     },
     {
-      url: '/dashboard/setting',
+      url: '/dashboard/settings',
       label: 'Settings',
       img: '/setting',
     },

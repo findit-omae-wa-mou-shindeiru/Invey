@@ -9,6 +9,7 @@ import IMultipleChoice from './IMultipleChoice';
 import ILinearScale from './ILinearScale';
 import IQuestionType from './IQuestionType';
 import ISurveySummary from './ISurveySummary';
+import IUserDetail from './IUserDetail';
 
 export type {
   IContent,
@@ -22,4 +23,5 @@ export type {
   ILinearScale,
   IQuestionType,
   ISurveySummary,
+  IUserDetail,
 };
