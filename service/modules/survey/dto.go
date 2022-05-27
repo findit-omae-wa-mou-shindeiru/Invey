@@ -4,6 +4,7 @@ type CreateSurveyPayload struct {
   Title         string              `json:"title" binding:"required"`
   Description   string              `json:"description" binding:"required"`
   RewardPoint   int                 `json:"reward_point" binding:"required"`
+  MaxAnswer     uint                `json:"max_answer" binding:"required"`
   Category      []uint              `json:"category" binding:"required"`
   Audience      []uint              `json:"audience" binding:"required"`
   Gender        []uint              `json:"gender" binding:"required"`

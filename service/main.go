@@ -50,6 +50,7 @@ func main() {
     r.POST("/user/reward-point", user.EditRewardPoint)
     r.GET("/user/total-notification", user.CountNotification)
     r.GET("/user/read-notification", user.ReadNotification)
+    // TODO: endpoint for getting data of survey
 
     port := os.Getenv("PORT")
 

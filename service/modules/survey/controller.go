@@ -91,6 +91,13 @@ func CreateSurvey(c *gin.Context) {
         return 
     }
 
+    if user.RewardPoint < payload.RewardPoint*int(payload.MaxAnswer) {
+        c.String(400, "Not enough reward point")
+        return
+    } else {
+        user.RewardPoint -= payload.RewardPoint*int(payload.MaxAnswer)
+    }
+
     survey := models.Survey {
         Title: payload.Title,
         Description: payload.Description,
@@ -100,6 +107,7 @@ func CreateSurvey(c *gin.Context) {
         Gender: gender,
         OwnerId: user_claim.ID,
         RewardPoint: payload.RewardPoint,
+        MaxAnswer: payload.MaxAnswer,
     }
 
     result := models.DB.Create(&survey)
@@ -108,8 +116,6 @@ func CreateSurvey(c *gin.Context) {
         c.String(500, "Error inserting survey")
         return
     }
-
-    user.RewardPoint -= payload.RewardPoint
 
     models.DB.Save(&user)
 
@@ -250,6 +256,22 @@ func CreateAnswerToSurvey(c *gin.Context) {
     var survey models.Survey
 
     models.DB.First(&survey, id)
+
+    filter := bson.D{{"survey_id", bson.D{{"$eq", survey.ID}}}}
+
+    c_answer := models.MongoClient.Database("invey").Collection("answer")
+
+    count, err := c_answer.CountDocuments(context.TODO(), filter)
+
+    if err != nil {
+       c.String(500,err.Error())
+       return
+    }
+
+    if count >= int64(survey.MaxAnswer) {
+       c.String(400, "survey reached maximum answer")
+       return
+    }
 
     authorization_header := c.Request.Header["Authorization"]
 
