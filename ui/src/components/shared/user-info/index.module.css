@@ -13,3 +13,44 @@
   line-height: 18px;
   color: #293072;
 }
+
+.notifWrapper {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 1px 1px 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notifPopup {
+  top: 65px;
+  right: 0;
+  width: 350px;
+  height: 400px;
+  overflow: auto;
+  background-color: #fff;
+  box-shadow: 1px 1px 6px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 2;
+}
+
+.notif {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+}
+
+.notifMsg {
+  font-weight: 500;
+  font-size: calc(7px + 0.5rem);
+  line-height: calc(10px + 0.5rem);
+  color: #293072;
+}
+
+.notifTime {
+  font-weight: 400;
+  font-size: calc(7px + 0.5rem);
+  line-height: calc(10px + 0.5rem);
+  color: #293072;
+}

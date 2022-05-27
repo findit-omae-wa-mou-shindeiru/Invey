@@ -10,6 +10,7 @@ import ILinearScale from './ILinearScale';
 import IQuestionType from './IQuestionType';
 import ISurveySummary from './ISurveySummary';
 import IUserDetail from './IUserDetail';
+import INotification from './INotification';
 
 export type {
   IContent,
@@ -24,4 +25,5 @@ export type {
   IQuestionType,
   ISurveySummary,
   IUserDetail,
+  INotification,
 };
