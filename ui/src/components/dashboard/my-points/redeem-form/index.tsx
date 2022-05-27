@@ -41,66 +41,68 @@ const RedeemForm = ({
             />
           </div>
         </div>
-      </div>
-      <div className={styles.transferMethodContainer}>
-        <div className={styles.formLabel}>Transfer Method</div>
-        <div className={styles.transferMethodInputContainer}>
-          <Dropdown>
-            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              {transferMethod ? transferMethod : "Select Transfer Method"}
-            </Dropdown.Toggle>
+        <div className={styles.transferMethodContainer}>
+          <div className={styles.formLabel}>Transfer Method</div>
+          <div className={styles.transferMethodInputContainer}>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                {transferMethod ? transferMethod : "Select Transfer Method"}
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              {transferMethodOptions.map((option, idx) => {
-                return (
-                  <Dropdown.Item
-                    key={idx}
-                    onClick={() => {
-                      setTransferMethod(option);
-                    }}
-                  >
-                    {option}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                {transferMethodOptions.map((option, idx) => {
+                  return (
+                    <Dropdown.Item
+                      key={idx}
+                      onClick={() => {
+                        setTransferMethod(option);
+                      }}
+                    >
+                      {option}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
-      </div>
-      <div className={styles.accNumberContainer}>
-        <div className={styles.formLabel}>Account Number</div>
-        <div className={styles.accNumberInputContainer}>
-          <input
-            className={styles.accNumberInput}
-            placeholder="Enter Account Number"
-            type="text"
-            value={accNumber}
-            onChange={(e) => {
-              setAccNumber(e.target.value);
-            }}
-          />
+        <div className={styles.accNumberContainer}>
+          <div className={styles.formLabel}>Account Number</div>
+          <div className={styles.accNumberInputContainer}>
+            <input
+              className={styles.accNumberInput}
+              placeholder="Enter Account Number"
+              type="text"
+              value={accNumber}
+              onChange={(e) => {
+                setAccNumber(e.target.value);
+              }}
+            />
+          </div>
         </div>
-      </div>
-      {transferMethod && point && accNumber && (
-        <div className={styles.transferInfoContainer}>
-          You will get {convertPointToRp(point)} to your {transferMethod}{" "}
-          account.
-        </div>
-      )}
-      <div className={styles.btnContainer}>
-        <button
-          className={styles.btnTransfer + " btn"}
-          disabled={!transferMethod || !point || !accNumber}
-          onClick={() => {
-            if (!point) {
-              return;
-            }
-
-            onTransfer(point);
-          }}
+        {transferMethod && point && accNumber && (
+          <div className={styles.transferInfoContainer}>
+            You will get {convertPointToRp(point)} to your {transferMethod}{" "}
+            account.
+          </div>
+        )}
+        <div
+          className={styles.btnContainer + " mt-4 d-flex justify-content-end"}
         >
-          Transfer
-        </button>
+          <button
+            className={styles.btnTransfer + " btn btn-primary"}
+            disabled={!transferMethod || !point || !accNumber}
+            onClick={() => {
+              if (!point) {
+                return;
+              }
+
+              onTransfer(point);
+            }}
+          >
+            Transfer
+          </button>
+        </div>
       </div>
     </div>
   );

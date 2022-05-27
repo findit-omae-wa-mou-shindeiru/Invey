@@ -34,7 +34,11 @@ const MyPoints = () => {
             <div className={styles.pointsNumber}>{points ? points : "..."}</div>
           </div>
         </div>
-        <div className={styles.formContainer}>
+        <div
+          className={
+            styles.formContainer + " mt-4 d-flex justify-content-between"
+          }
+        >
           <TopUpForm onVerify={(nominal) => topUpPoint(nominal)} />
           <RedeemForm onTransfer={(nominal) => redeemPoint(nominal)} />
         </div>

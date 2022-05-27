@@ -45,7 +45,7 @@ const TopUpForm = ({ onVerify }: { onVerify: (point: number) => void }) => {
       <div className={styles.titleContainer}>
         <div className={styles.title}>Top Up Points</div>
       </div>
-      <div className={styles.formContainer}>
+      <div className={styles.formContainer + " d-flex flex-column"}>
         <div className={styles.pointContainer}>
           <div className={styles.formLabel}>Point</div>
           <div className={styles.pointInputContainer}>
@@ -60,59 +60,61 @@ const TopUpForm = ({ onVerify }: { onVerify: (point: number) => void }) => {
             />
           </div>
         </div>
-      </div>
-      <div className={styles.paymentMethodContainer}>
-        <div className={styles.formLabel}>Payment Method</div>
-        <div className={styles.paymentMethodInputContainer}>
-          <Dropdown>
-            <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              {paymentMethod ? paymentMethod.label : "Select Payment Method"}
-            </Dropdown.Toggle>
+        <div className={styles.paymentMethodContainer}>
+          <div className={styles.formLabel}>Payment Method</div>
+          <div className={styles.paymentMethodInputContainer}>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                {paymentMethod ? paymentMethod.label : "Select Payment Method"}
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              {paymentMethodOptions.map((option, idx) => {
-                return (
-                  <Dropdown.Item
-                    key={idx}
-                    onClick={() => {
-                      setPaymentMethod(option);
-                    }}
-                  >
-                    {option.label}
-                  </Dropdown.Item>
-                );
-              })}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
-      {paymentMethod && point && (
-        <div className={styles.transferInfoContainer}>
-          <div className={styles.transferInfoNumber}>
-            Transfer to {paymentMethod.accNumber}
-          </div>
-          <div className={styles.transferPoint}>
-            for {convertPointToRp(point!)}
-          </div>
-          <div className={styles.transferInfoStep}>
-            Then click the check button below
+              <Dropdown.Menu>
+                {paymentMethodOptions.map((option, idx) => {
+                  return (
+                    <Dropdown.Item
+                      key={idx}
+                      onClick={() => {
+                        setPaymentMethod(option);
+                      }}
+                    >
+                      {option.label}
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
-      )}
-      <div className={styles.btnContainer}>
-        <button
-          className={styles.btnVerify + " btn"}
-          disabled={!paymentMethod || !point}
-          onClick={() => {
-            if (!point) {
-              return;
-            }
-
-            onVerify(point);
-          }}
+        {paymentMethod && point && (
+          <div className={styles.transferInfoContainer}>
+            <div className={styles.transferInfoNumber}>
+              Transfer to {paymentMethod.accNumber}
+            </div>
+            <div className={styles.transferPoint}>
+              for {convertPointToRp(point!)}
+            </div>
+            <div className={styles.transferInfoStep}>
+              Then click the check button below
+            </div>
+          </div>
+        )}
+        <div
+          className={styles.btnContainer + " mt-4 d-flex justify-content-end align-items-end"}
         >
-          Check
-        </button>
+          <button
+            className={styles.btnVerify + " btn btn-primary"}
+            disabled={!paymentMethod || !point}
+            onClick={() => {
+              if (!point) {
+                return;
+              }
+
+              onVerify(point);
+            }}
+          >
+            Check
+          </button>
+        </div>
       </div>
     </div>
   );
