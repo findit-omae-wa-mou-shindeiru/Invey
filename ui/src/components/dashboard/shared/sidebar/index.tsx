@@ -30,6 +30,11 @@ const Sidebar = ({
       label: 'Settings',
       img: '/setting',
     },
+    {
+      url: '/dashboard/my-points',
+      label: 'My Points',
+      img: '/my-points',
+    }
   ];
 
   return (

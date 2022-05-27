@@ -27,6 +27,8 @@ import FillMultipleChoice from "./fill-form/fill-multiple-choice";
 import FillCheckbox from "./fill-form/fill-checkbox";
 import FillDropdown from "./fill-form/fill-dropdown";
 import FillLinearScale from "./fill-form/fill-linear-scale";
+import TopUpForm from "./dashboard/my-points/top-up-form";
+import RedeemForm from "./dashboard/my-points/redeem-form";
 
 export {
   Navbar,
@@ -58,4 +60,6 @@ export {
   FillCheckbox,
   FillDropdown,
   FillLinearScale,
+  TopUpForm,
+  RedeemForm,
 };
