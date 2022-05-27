@@ -7,14 +7,30 @@ import (
 	"question-service/modules/auth"
 	"question-service/modules/survey"
 	"question-service/modules/user"
+	"time"
+
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
+
 
 func main() {
     models.ConnectDatabase();
 
     r := gin.Default()
+
+    r.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"*"},
+        AllowMethods:     []string{"PUT", "GET", "POST"},
+        AllowHeaders:     []string{"*"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+        AllowOriginFunc: func(origin string) bool {
+            return true
+        },
+        MaxAge: 12 * time.Hour,
+    }))
 
     r.POST("/auth/login", auth.Login)
     r.POST("/auth/register", auth.Register)

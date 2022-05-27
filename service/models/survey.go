@@ -2,7 +2,6 @@ package models
 
 import "gorm.io/gorm"
 
-// TODO: add reward point
 type Survey struct {
   gorm.Model
   ID            uint                `gorm:"primaryKey" json:"id"`
@@ -10,6 +9,7 @@ type Survey struct {
   Description   string              `json:"description" binding:"required"`
   QuestionsId   string              `json:"question_id" binding:"required"`
   OwnerId       uint                `json:"owner_id"`
+  RewardPoint   uint                `json:"reward_point" binding:"required"`
   Category      []SurveyCategory    `gorm:"many2many:survey_category" json:"category" binding:"required"`
   Audience      []SurveyAudience    `gorm:"many2many:survey_audience" json:"audience" binding:"required"`
   Gender        []SurveyGender      `gorm:"many2many:survey_gender" json:"gender" binding:"required"`

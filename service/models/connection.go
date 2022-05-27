@@ -5,8 +5,8 @@ import (
 	"errors"
 	"os"
 
+    "gorm.io/driver/postgres"
 	// "github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,8 +17,8 @@ var DB *gorm.DB
 var MongoClient *mongo.Client
 
 func connectGormDB() {
-    // env_err := godotenv.Load()
-
+	//     env_err := godotenv.Load()
+	//
 	// if env_err != nil {
 	//         panic(env_err) 
 	//     }
