@@ -5,8 +5,8 @@ import (
 	"errors"
 	"os"
 
-	// "github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
+    "gorm.io/driver/mysql"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,15 +17,15 @@ var DB *gorm.DB
 var MongoClient *mongo.Client
 
 func connectGormDB() {
-    // env_err := godotenv.Load()
+    env_err := godotenv.Load()
 
-	// if env_err != nil {
-	//         panic(env_err) 
-	//     }
+	if env_err != nil {
+        panic(env_err) 
+    }
 
     db_string := os.Getenv("DB_STRING")
 
-    db, err := gorm.Open(postgres.Open(db_string), &gorm.Config{})
+    db, err := gorm.Open(mysql.Open(db_string), &gorm.Config{})
 
     if err != nil {
         panic("Failed to connect to database!")

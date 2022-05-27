@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"question-service/middlewares"
 	"question-service/models"
 	"question-service/modules/auth"
 	"question-service/modules/survey"
@@ -11,10 +12,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
 func main() {
     models.ConnectDatabase();
 
     r := gin.Default()
+
+    r.Use(middlewares.CORSMiddleware())
 
     r.POST("/auth/login", auth.Login)
     r.POST("/auth/register", auth.Register)
