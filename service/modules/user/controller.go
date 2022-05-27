@@ -102,6 +102,22 @@ func UpdateProfile(c *gin.Context) {
         user.SecondName = *update_payload.SecondName
     }
 
+    if update_payload.Bio != nil {
+        user.Bio = *update_payload.Bio
+    }
+
+    if update_payload.GenderID != nil {
+        user.GenderID = *update_payload.GenderID
+    }
+
+    if update_payload.PositionId != nil {
+        user.PositionId = *update_payload.PositionId
+    }
+
+    if update_payload.PhotoURL != nil {
+        user.PhotoURL = *update_payload.PhotoURL
+    }
+
     // WARN: something off about the error, it updates just fine without it
     models.DB.Save(&user)
 

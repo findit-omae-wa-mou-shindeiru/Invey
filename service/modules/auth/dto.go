@@ -7,15 +7,17 @@ type AuthToken struct {
 }
 
 type LoginPayload struct {
-    Email string `json:"email"`
-    Password string `json:"password"`
+    Email       string `json:"email"`
+    Password    string `json:"password"`
 }
 
 type RegisterPayload struct {
-    FirstName string `json:"firstname" binding:"required"`
-    SecondName string `json:"secondname" binding:"required"`
-    Email string `json:"email" binding:"required"`
-    Password string `json:"password" binding:"required"`
+    FirstName     string `json:"firstname" binding:"required"`
+    SecondName    string `json:"secondname" binding:"required"`
+    Email         string `json:"email" binding:"required"`
+    Password      string `json:"password" binding:"required"`
+    GenderID      uint `json:"gender_id" binding:"required"`
+    PositionId    uint `json:"position_id" binding:"required"`
 }
 
 type UserClaim struct {

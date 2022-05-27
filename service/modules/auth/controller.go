@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/base64"
+	"fmt"
 	"os"
 	"question-service/models"
 
@@ -75,6 +76,9 @@ func Register(c *gin.Context) {
         SecondName: body_payload.SecondName,
         Email: body_payload.Email,
         Password: base64.RawStdEncoding.EncodeToString(hashed_password),
+        GenderID: body_payload.GenderID,
+        PositionId: body_payload.PositionId,
+        PhotoURL: fmt.Sprintf("https://avatars.dicebear.com/api/adventurer/%s.svg", body_payload.FirstName),
     } 
 
     result := models.DB.Create(&user)
