@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
-	"question-service/middlewares"
 	"question-service/models"
 	"question-service/modules/auth"
 	"question-service/modules/survey"
 	"question-service/modules/user"
+	"time"
+
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +20,17 @@ func main() {
 
     r := gin.Default()
 
-    r.Use(middlewares.CORSMiddleware())
+    r.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"*"},
+        AllowMethods:     []string{"PUT", "PATCH"},
+        AllowHeaders:     []string{"Origin"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+        AllowOriginFunc: func(origin string) bool {
+            return true
+        },
+        MaxAge: 12 * time.Hour,
+    }))
 
     r.POST("/auth/login", auth.Login)
     r.POST("/auth/register", auth.Register)
