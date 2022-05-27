@@ -9,6 +9,6 @@ type User struct {
   SecondName    string  `json:"secondname" binding:"required"`
   Email         string  `json:"email" binding:"required"`
   Password      string  `json:"-" binding:"required"`
-  RewardPoint   uint    `json:"reward_point" binding:"required"`
+  RewardPoint   int     `json:"reward_point" binding:"required"`
   Surveys       []Survey `gorm:"foreignKey:OwnerId;"  json:"surveys"`
 }

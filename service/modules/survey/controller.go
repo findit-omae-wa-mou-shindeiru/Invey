@@ -17,6 +17,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// TODO: use reward point to create survey
 func CreateSurvey(c *gin.Context) {
     body_byte, _ := ioutil.ReadAll(c.Request.Body)
 
@@ -225,6 +226,11 @@ func GetSurveyQuestionBySurveyId(c *gin.Context) {
 func CreateAnswerToSurvey(c *gin.Context) {
     id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
     body_byte, _ := ioutil.ReadAll(c.Request.Body)
+
+    var survey models.Survey
+
+    // TODO: Use to get survey reward point then increment user reward point
+    models.DB.First(&survey, id)
 
     if err != nil {
         c.String(400, err.Error())

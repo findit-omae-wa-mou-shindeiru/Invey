@@ -47,6 +47,8 @@ func main() {
     r.GET("/user/profile", user.GetProfile)
     r.PUT("/user/profile", user.UpdateProfile)
     r.GET("/user/surveys", user.GetSurveys)
+    r.POST("/user/reward-point", user.EditRewardPoint)
+    // TODO: Add endpoint to decrement and increment reward point
 
     port := os.Getenv("PORT")
 
