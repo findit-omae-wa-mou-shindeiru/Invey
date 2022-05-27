@@ -41,7 +41,8 @@ func GetProfile(c *gin.Context) {
 
     if res.Error != nil {
         c.JSON(500, res.Error.Error())
-        return }
+        return 
+    }
 
     c.JSON(200, user)
 }
@@ -101,6 +102,22 @@ func UpdateProfile(c *gin.Context) {
         user.SecondName = *update_payload.SecondName
     }
 
+    if update_payload.Bio != nil {
+        user.Bio = *update_payload.Bio
+    }
+
+    if update_payload.GenderID != nil {
+        user.GenderID = *update_payload.GenderID
+    }
+
+    if update_payload.PositionId != nil {
+        user.PositionId = *update_payload.PositionId
+    }
+
+    if update_payload.PhotoURL != nil {
+        user.PhotoURL = *update_payload.PhotoURL
+    }
+
     // WARN: something off about the error, it updates just fine without it
     models.DB.Save(&user)
 
@@ -142,3 +159,52 @@ func GetSurveys(c *gin.Context) {
 
     c.JSON(200, survey)
 }
+
+func EditRewardPoint(c *gin.Context) {
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(402, err_token.Error())
+        return
+    }
+
+    var payload PointPayload
+
+    err := c.ShouldBindJSON(&payload)
+
+    if err != nil {
+        c.String(400, err.Error())
+    }
+
+    var user models.User
+    
+    res := models.DB.Find(&user, user_claim.ID)
+
+    if res.Error != nil {
+        c.String(500, res.Error.Error())
+        return 
+    }
+
+    user.RewardPoint += payload.Point
+
+    models.DB.Save(&user)
+
+    c.JSON(200, user)
+}
+
