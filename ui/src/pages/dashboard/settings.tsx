@@ -56,8 +56,8 @@ const Setting = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/profile");
 
     if (err || !res) {
-      if(err.response.data) {
-        alert(err.response.data)
+      if (err.response.data) {
+        alert(err.response.data);
       } else {
         alert(err);
       }
@@ -83,8 +83,8 @@ const Setting = () => {
     const { res, err } = await ApiProxy.getInstance().get("survey-filters");
 
     if (err || !res) {
-      if(err.response.data) {
-        alert(err.response.data)
+      if (err.response.data) {
+        alert(err.response.data);
       } else {
         alert(err);
       }
@@ -129,8 +129,8 @@ const Setting = () => {
     );
 
     if (err || !res) {
-      if(err.response.data) {
-        alert(err.response.data)
+      if (err.response.data) {
+        alert(err.response.data);
       } else {
         alert(err);
       }
@@ -247,9 +247,8 @@ const Setting = () => {
                           id="dropdown-position"
                         >
                           {userDetail.position
-                            ? // TODO: DELETE + 1
-                              positionOptions.find(
-                                (o) => o.id === userDetail.position!.id + 1
+                            ? positionOptions.find(
+                                (o) => o.id === userDetail.position!.id
                               )?.name
                             : "Select Position"}
                         </Dropdown.Toggle>
@@ -280,9 +279,8 @@ const Setting = () => {
                       <Dropdown>
                         <Dropdown.Toggle variant="primary" id="dropdown-gender">
                           {userDetail.gender
-                            ? // TODO: DELETE + 1
-                              genderOptions.find(
-                                (o) => o.id === userDetail.gender!.id + 1
+                            ? genderOptions.find(
+                                (o) => o.id === userDetail.gender!.id
                               )?.name
                             : "Select Gender"}
                         </Dropdown.Toggle>

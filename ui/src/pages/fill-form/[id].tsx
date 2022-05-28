@@ -18,6 +18,7 @@ import {
 import { QuestionType } from "enums";
 import { useState, useEffect } from "react";
 import styles from "styles/fill-form/id.module.css";
+import { ApiProxy } from "services";
 
 interface IQuestionOverview {
   title: string;
@@ -54,9 +55,9 @@ const defaultAnswer = (type: keyof typeof QuestionType) => {
 
 const FillFormDetail = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const [loading, setLoading] = useState(false);
 
-  const fetchData = () => {
+  const dummyfetchData = () => {
     const data = {
       title: "Some title for questions",
       description:
@@ -78,12 +79,41 @@ const FillFormDetail = () => {
     setQuestions(data.questions);
   };
 
+  const fetchData = async () => {
+    const { id } = router.query;
+    const { res, err } = await ApiProxy.getInstance().get(
+      "survey-question/" + id
+    );
+
+    if (err || !res) {
+      alert(err);
+      return;
+    }
+
+    if (res.status !== 200) {
+      alert(res.data);
+      return;
+    }
+
+    const { data } = res;
+    // console.log("fetch data", data);
+    setOverview(data);
+  };
+
+  const fetchAll = async () => {
+    setLoading(true);
+    await Promise.all([fetchData()]);
+    setLoading(false);
+  };
+
   const [overview, setOverview] = useState<IQuestionOverview>();
   const [questions, setQuestions] = useState<IQuestionType[]>([]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (router.query?.id) {
+      fetchAll();
+    }
+  }, [router]);
 
   const onChangeAnswer = (
     idx: number,
@@ -147,11 +177,11 @@ const FillFormDetail = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.container + " page"}>
-        {overview && (
-          <div className={styles.topContainer}>
-            <div className={styles.bannerContainer}>
-              <img src={overview.banner} alt="banner" />
-            </div>
+        <div className={styles.topContainer}>
+          <div className={styles.bannerContainer}>
+            <img src="/banner-question.png" alt="banner" />
+          </div>
+          {overview && (
             <div className={styles.textOverviewContainer + " mt-3"}>
               <div className={styles.title}>{overview.title}</div>
               {overview.description && (
@@ -160,8 +190,8 @@ const FillFormDetail = () => {
                 </div>
               )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <div className={styles.contentContainer + " mt-3"}>
           {questions &&
             questions.map((question, idx) => {
@@ -174,7 +204,9 @@ const FillFormDetail = () => {
             })}
         </div>
         <div
-          className={styles.btnContainer + " mt-5 btn d-flex justify-content-end"}
+          className={
+            styles.btnContainer + " mt-5 btn d-flex justify-content-end"
+          }
         >
           <button onClick={onSubmit}>Submit</button>
         </div>
