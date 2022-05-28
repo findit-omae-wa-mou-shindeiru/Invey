@@ -12,6 +12,7 @@ import ISurveySummary from "./ISurveySummary";
 import IUserDetail from "./IUserDetail";
 import INotification from "./INotification";
 import IPlanOption from "./IPlanOption";
+import IFilterOptions from "./IFilterOptions";
 
 export type {
   IContent,
@@ -28,4 +29,5 @@ export type {
   IUserDetail,
   INotification,
   IPlanOption,
+  IFilterOptions,
 };
