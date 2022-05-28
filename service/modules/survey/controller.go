@@ -233,7 +233,13 @@ func GetSurveys(c *gin.Context) {
         res = res.Where("surveys.reward_point BETWEEN ? AND ?", *filter.LowerBoundRewardPoint, *filter.HigherBoundRewardPoint)
     }
         
-    res = res.Find(&survey)
+    res = res.
+    Where(&models.Survey{
+        IsPublished: true,
+    }).
+    Find(&survey)
+
+    //TODO: check if survey passes max answer
 
     if res.Error != nil {
         c.JSON(500, res.Error.Error())
@@ -434,9 +440,6 @@ func UpdateSurvey(c *gin.Context) {
         survey.Description = *update_payload.Description
     }
     
-    // WARN: something off about the error, it updates just fine without it
-    models.DB.Save(&survey)
-    
     if update_payload.AudienceId != nil {
         var audiences []models.SurveyAudience
     
@@ -478,6 +481,9 @@ func UpdateSurvey(c *gin.Context) {
     if update_payload.IsPublished != nil {
         survey.IsPublished = *update_payload.IsPublished
     }
+
+    // WARN: something off about the error, it updates just fine without it
+    models.DB.Save(&survey)
     
     c.JSON(200,survey)
 }
