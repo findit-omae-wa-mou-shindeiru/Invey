@@ -1,6 +1,8 @@
 import styles from "./index.module.css";
 import { ISurveySummary } from "interfaces";
 import Dropdown from "react-bootstrap/Dropdown";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
 import NumericInput from "react-numeric-input";
 import { useState } from "react";
 
@@ -134,10 +136,18 @@ const SurveySummaryForm = ({
               {targets.map((option, idx) => {
                 return (
                   <div key={idx} className={styles.inputTarget}>
-                    <Dropdown>
-                      <Dropdown.Toggle id="dropdown-basic">
+                    <Dropdown as={ButtonGroup}>
+                      <Button variant="secondary" className={styles.dropdownBtn + " text-start"}>
                         {option.selected ? option.selected : option.label}
-                      </Dropdown.Toggle>
+                      </Button>
+
+                      <Dropdown.Toggle
+                        split
+                        variant="secondary"
+                        id={`dropdown-${option.label}`}
+                        className={styles.inputTargetMenu}
+                      />
+
                       <Dropdown.Menu>
                         {option.values.map((value, idxOption) => {
                           return (

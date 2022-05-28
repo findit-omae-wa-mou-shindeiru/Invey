@@ -52,8 +52,40 @@
 }
 
 .inputTargetGroup {
-  gap: 1.5rem;
+  row-gap: 6%;
   margin-top: 0.5rem;
+}
+
+.inputTarget {
+  width: 47%;
+  margin-top: 1rem;
+}
+
+.inputTarget > * {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.dropdownBtn {
+  font-size: calc(9px + 0.5rem);
+  line-height: calc(12px + 0.5rem);
+  color: rgba(41, 48, 114, 0.75);
+  background: none;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.inputTargetMenu {
+  max-width: 30px !important;
+}
+
+.dropdownBtn:hover {
+  background: none;
+  color: rgba(41, 48, 114, 0.75);
+}
+
+.dropdownBtn:focus:not(:hover) {
+  background: none;
+  color: rgba(41, 48, 114, 0.75);
 }
 
 .btnContainer > button {
@@ -63,10 +95,10 @@
   font-weight: 600;
   font-size: calc(12px + 0.5rem);
   line-height: calc(15px + 0.5rem);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .btnContainer > button:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   box-shadow: 1px 1px 8px 8px rgba(0, 0, 0, 0.1);
 }
