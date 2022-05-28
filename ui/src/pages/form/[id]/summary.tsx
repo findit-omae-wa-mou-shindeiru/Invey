@@ -25,7 +25,6 @@ const defaultSurveySummary: ISurveySummary = {
 };
 
 const Summary = () => {
-  const router = useRouter()
   const [coverPicture, setCoverPicture] = useState<File>();
   const [bannerPicture, setBannerPicture] = useState<File>();
   const [surveySummary, setSurveySummary] =
@@ -50,24 +49,24 @@ const Summary = () => {
 
   const onSubmit = async () => {
     console.log("surveySummary", surveySummary);
-    const {id} = router.query
+    const { id } = router.query;
 
     const { res, err } = await ApiProxy.getInstance().put(
       `survey/${id}`,
       surveySummary
     )!;
 
-    if(err || !res){
-      if(err.response.data) {
-        alert(err.response.data)
+    if (err || !res) {
+      if (err.response.data) {
+        alert(err.response.data);
       } else {
         alert(err);
       }
-      return
+      return;
     }
 
-    if(res.status == 200) {
-      alert("Successfully updated form")
+    if (res.status == 200) {
+      alert("Successfully updated form");
     }
   };
 
@@ -107,7 +106,6 @@ const Summary = () => {
     }
 
     const { data } = res;
-    // console.log("statusForm", data);
     setTotalResp(data.count);
   };
 
@@ -135,11 +133,11 @@ const Summary = () => {
           >
             <div className={styles.statusContainer}>
               <h1>Survey Status</h1>
-              <h2>{isPublished ? "Published" : "Draft"}</h2>
+              <h2 className="px-3">{isPublished ? "Published" : "Draft"}</h2>
             </div>
             <div className={styles.totalResponseContainer}>
               <h1>Total Response</h1>
-              <h2>{totalResp}</h2>
+              <h2 className="px-3">{totalResp}</h2>
             </div>
           </div>
           <div
