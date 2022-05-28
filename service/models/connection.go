@@ -62,6 +62,8 @@ func connectGormDB() {
             })
         }
     }
+
+    DB.AutoMigrate(&AnswerNotification{})
 }
 
 func connectMongoDB() {
