@@ -44,7 +44,7 @@ func main() {
     r.GET("/survey-answer-count/:surveyId", survey.GetAnswerCountBySurveyId)
     r.POST("/survey/filters", survey.GetSurveys)
     r.GET("/survey-question/:id", survey.GetSurveyQuestionBySurveyId)
-    r.PUT("/survey-question/:questionId", survey.UpdateQuestion)
+    r.PUT("/survey-question/:surveyId", survey.UpdateQuestion)
     r.GET("/survey/:id", survey.GetSurveyById)
     r.GET("/user/profile", user.GetProfile)
     r.PUT("/user/profile", user.UpdateProfile)

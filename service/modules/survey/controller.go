@@ -502,9 +502,60 @@ func UpdateQuestion(c *gin.Context) {
 
     c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body_byte))
 
-    question_id := c.Param("questionId")
+    survey_id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
 
-    id, err := primitive.ObjectIDFromHex(question_id)
+    if err != nil {
+        c.String(400, err.Error())
+    }
+
+    var survey models.Survey
+
+    models.DB.Debug().Preload("Audience").Preload("Gender").First(&survey, survey_id)
+
+    if survey.QuestionsId == "" {
+        var jsonData []bson.M  
+
+        if e := json.Unmarshal(body_byte, &jsonData); e != nil {
+            c.String(400,e.Error()) 
+            return
+        }
+
+        if jsonData == nil {
+            c.String(400,"No question in payload") 
+            return 
+        }
+
+        c_question := models.MongoClient.Database("invey").Collection("question")
+
+        result, err := c_question.InsertOne(context.TODO(), bson.M{"question":jsonData})
+
+        if err != nil {
+            c.String(400, err.Error())
+        }
+
+        var id string
+
+        if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
+            id = oid.Hex()
+        } else {
+            c.String(400, "doesnt return id")
+            return
+        }
+
+        if err != nil {
+            c.String(400, err.Error())
+            return
+        }
+
+        survey.QuestionsId = id
+
+        models.DB.Save(&survey)
+
+        c.String(200, "Successfully created question")
+        return
+    }
+
+    id, err := primitive.ObjectIDFromHex(survey.QuestionsId)
 
     if err != nil {
         c.String(400, err.Error())
@@ -513,7 +564,7 @@ func UpdateQuestion(c *gin.Context) {
 
     filter := bson.D{{"_id", id}}
 
-    var jsonData []bson.M  
+    var jsonData []bson.D  
 
     if e := json.Unmarshal(body_byte, &jsonData); e != nil {
         c.JSON(400, e.Error())
