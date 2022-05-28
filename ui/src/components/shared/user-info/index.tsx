@@ -3,39 +3,6 @@ import { useState, useEffect } from "react";
 import { INotification } from "interfaces";
 import { ApiProxy } from "services";
 
-// const notifs: INotification[] = [
-//   {
-//     avatar: "/avatar.png",
-//     message: "John Doe has filled your survey",
-//     time: "3 minutes ago",
-//   },
-//   {
-//     avatar: "/avatar.png",
-//     message: "Malik Akbar has filled your survey",
-//     time: "5 minutes ago",
-//   },
-//   {
-//     avatar: "/avatar.png",
-//     message: "John Doe has filled your survey",
-//     time: "3 minutes ago",
-//   },
-//   {
-//     avatar: "/avatar.png",
-//     message: "Malik Akbar has filled your survey",
-//     time: "5 minutes ago",
-//   },
-//   {
-//     avatar: "/avatar.png",
-//     message: "John Doe has filled your survey",
-//     time: "3 minutes ago",
-//   },
-//   {
-//     avatar: "/avatar.png",
-//     message: "Malik Akbar has filled your survey",
-//     time: "5 minutes ago",
-//   },
-// ];
-
 const UserInfo = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const [countNotif, setCountNotif] = useState(0);
