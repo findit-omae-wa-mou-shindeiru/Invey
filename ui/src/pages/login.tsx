@@ -37,7 +37,11 @@ const Login = () => {
     );
 
     if (err) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
     } else {
       router.push("/dashboard/explore");
     }

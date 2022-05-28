@@ -20,8 +20,11 @@ import {
   ILinearScale,
   IQuestionType,
 } from "interfaces";
+import { useRouter } from "next/router";
+import { ApiProxy } from "services";
 
 const Survey = () => {
+  const router = useRouter()
   const [questionStates, setQuestionStates] = useState<IQuestionType[]>([]);
 
   const onAddQuestion = (type: keyof typeof QuestionType) => {
@@ -41,8 +44,24 @@ const Survey = () => {
     setQuestionStates(questionStatesCopy);
   };
 
-  const onSubmit = () => {
-    alert("SUBMIT DELETE LATER");
+  const onSubmit = async () => {
+    const {id} = router.query
+
+    const { res, err } = await ApiProxy.getInstance().put(
+      `survey-question/${id}`,
+      questionStates
+    )!;
+
+    if (err || !res) {
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
+      return
+    }
+
+    alert("Successfully added question")
   };
 
   return (

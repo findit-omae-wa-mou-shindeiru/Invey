@@ -23,7 +23,11 @@ const StatsSummary = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/survey-stats");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -43,7 +47,11 @@ const StatsSummary = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/profile");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -108,7 +116,11 @@ const StatsSummary = () => {
             );
 
             if (err || !res) {
-              alert(err);
+              if(err.response.data) {
+                alert(err.response.data)
+              } else {
+                alert(err);
+              }
               return;
             }
 

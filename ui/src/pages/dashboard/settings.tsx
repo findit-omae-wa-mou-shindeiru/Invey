@@ -56,7 +56,11 @@ const Setting = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/profile");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
     if (res.status !== 200) {
@@ -79,7 +83,11 @@ const Setting = () => {
     const { res, err } = await ApiProxy.getInstance().get("survey-filters");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
     if (res.status !== 200) {
@@ -121,7 +129,11 @@ const Setting = () => {
     );
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
     }
     if (res?.status !== 200) {
       alert(res?.data);
