@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dashboard } from 'layout';
 import styles from 'styles/dashboard/explore.module.css';
 import {
@@ -6,6 +6,7 @@ import {
   FilterSelection,
 } from 'components';
 import { ISurveyBox } from 'interfaces';
+import { ApiProxy } from 'services';
 
 const data: ISurveyBox[] = [
   {
@@ -122,6 +123,35 @@ const filters = [
 
 const Explore = () => {
   const [query, setQuery] = useState('');
+  const [surveyData, setSurveyData] = useState<ISurveyBox[]>([])
+
+  useEffect(()=>{
+    const getInitialData = async () => {
+      //TODO: do filter input says
+      const {res, err} = await ApiProxy.getInstance().post("survey/filters", {
+        "category_id":[],
+        "audience_id":[],
+        "gender_id":[]
+      });
+
+      if(err || !res) {
+        alert(err)
+        return
+      }
+
+      const dataProcessed : ISurveyBox[] = res.data.map((singleData:any) => ({
+        title: singleData.title,
+        description: singleData.description,
+        rewards: singleData.reward_point,
+        id: singleData.id,
+        estTime: "1 min",
+        img: "/mock-survey-icon.png"
+      }))
+
+      setSurveyData(dataProcessed)
+    }
+    getInitialData()
+  },[])
 
   return (
     <Dashboard>
@@ -160,7 +190,7 @@ const Explore = () => {
           <div
             className={styles.surveyBoxContainer}
           >
-            {data.map((datum) => {
+            {surveyData.map((datum) => {
               return (
                 <SurveyBox
                   data={datum}

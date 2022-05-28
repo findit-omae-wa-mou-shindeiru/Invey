@@ -1,12 +1,17 @@
 import Link from 'next/link';
 import styles from './index.module.css';
 import { ISurveyBox } from 'interfaces';
+import { useRouter } from 'next/router';
+import { ApiProxy } from 'services';
+import { useState } from 'react';
 
 const SurveyBox = ({
   data,
 }: {
   data: ISurveyBox;
 }) => {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
   return (
     <div
       className={
@@ -25,6 +30,9 @@ const SurveyBox = ({
         className={
           styles.content + ' d-flex flex-column'
         }
+        style={{
+          width:"100%"
+        }}
       >
         <div className={styles.title + " mb-3"}>
           {data.title}
@@ -81,10 +89,29 @@ const SurveyBox = ({
               styles.btnContainer +
               ' d-flex justify-content-center align-items-center'
             }
+            onClick={async ()=>{
+              setLoading(true)
+              const {res, err} = await ApiProxy.getInstance().get(`survey-eligibility/${data.id}`);
+
+              if (err || !res) {
+                alert(err)
+                setLoading(false)
+                return
+              }
+
+              if(res!.status !== 200) {
+                alert("You are uneligible to fill the form")
+                setLoading(false)
+                return
+              }
+
+              if(res.data.valid) {
+                router.push(`/fill-form/${data.id}`)
+              }
+              setLoading(false)
+            }}
           >
-            <Link href={`/detail/${data.id}`}>
-              <a>Answer Now</a>
-            </Link>
+            <div style={{"cursor":"pointer"}}>{loading ?  "Loading..." : "Answer Now"}</div>
           </div>
         </div>
       </div>
