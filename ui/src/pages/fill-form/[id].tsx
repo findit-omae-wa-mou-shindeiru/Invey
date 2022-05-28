@@ -19,6 +19,12 @@ import { QuestionType } from "enums";
 import { useState, useEffect } from "react";
 import styles from "styles/fill-form/id.module.css";
 
+interface IQuestionOverview {
+  title: string;
+  description?: string;
+  banner: string;
+}
+
 const randomizer = () => {
   const id =
     Math.floor(
@@ -51,16 +57,28 @@ const FillFormDetail = () => {
   const { id } = router.query;
 
   const fetchData = () => {
-    const data = randomizer().map((e, idx) => {
-      const datum = formGenerator(
-        Object.keys(QuestionType)[e] as keyof typeof QuestionType
-      );
-      return datum;
-    });
+    const data = {
+      title: "Some title for questions",
+      description:
+        "Some description for questions, here is a long description and it is very long and very long, but not that very very long. Please just ignore this because it is just for testing",
+      questions: randomizer().map((e, idx) => {
+        const datum = formGenerator(
+          Object.keys(QuestionType)[e] as keyof typeof QuestionType
+        );
+        return datum;
+      }),
+      banner: "/banner-question.png",
+    };
 
-    setQuestions(data);
+    setOverview({
+      title: data.title,
+      description: data.description,
+      banner: data.banner,
+    });
+    setQuestions(data.questions);
   };
 
+  const [overview, setOverview] = useState<IQuestionOverview>();
   const [questions, setQuestions] = useState<IQuestionType[]>([]);
 
   useEffect(() => {
@@ -127,22 +145,39 @@ const FillFormDetail = () => {
   };
 
   return (
-    <div className="page">
-      <h1>Fill Form Detail</h1>
-      <h2>ID: {id}</h2>
-      <div>
-        {questions &&
-          questions.map((question, idx) => {
-            return questionBuilder({
-              question,
-              onChangeAnswer,
-              idx,
-              onClearAnswer,
-            });
-          })}
-      </div>
-      <div>
-        <button onClick={onSubmit}>submit</button>
+    <div className={styles.pageContainer}>
+      <div className={styles.container + " page"}>
+        {overview && (
+          <div className={styles.topContainer}>
+            <div className={styles.bannerContainer}>
+              <img src={overview.banner} alt="banner" />
+            </div>
+            <div className={styles.textOverviewContainer + " mt-3"}>
+              <div className={styles.title}>{overview.title}</div>
+              {overview.description && (
+                <div className={styles.desc + " mt-2"}>
+                  {overview.description}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        <div className={styles.contentContainer + " mt-3"}>
+          {questions &&
+            questions.map((question, idx) => {
+              return questionBuilder({
+                question,
+                onChangeAnswer,
+                idx,
+                onClearAnswer,
+              });
+            })}
+        </div>
+        <div
+          className={styles.btnContainer + " mt-5 btn d-flex justify-content-end"}
+        >
+          <button onClick={onSubmit}>Submit</button>
+        </div>
       </div>
     </div>
   );
