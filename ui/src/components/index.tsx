@@ -29,6 +29,7 @@ import FillDropdown from "./fill-form/fill-dropdown";
 import FillLinearScale from "./fill-form/fill-linear-scale";
 import TopUpForm from "./dashboard/my-points/top-up-form";
 import RedeemForm from "./dashboard/my-points/redeem-form";
+import Loading from "./shared/loading";
 
 export {
   Navbar,
@@ -62,4 +63,5 @@ export {
   FillLinearScale,
   TopUpForm,
   RedeemForm,
+  Loading,
 };

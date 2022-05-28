@@ -38,7 +38,9 @@ class ApiSrv {
     const url = `${ApiSrv.API_URL}/${path}`;
 
     try {
-      const res = await axios.put(url, {
+      const res = await axios({
+        method: "PUT",
+        url,
         headers: this.generateHeader(token),
         responseType: "json",
         data: payload,

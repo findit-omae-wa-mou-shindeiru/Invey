@@ -3,8 +3,8 @@ interface IUserDetail {
   lastname: string;
   email: string;
   password?: string;
-  position: string;
-  gender: string;
+  position: { id: number; name: string } | null;
+  gender: { id: number; name: string } | null;
   bio?: string;
   photo_url?: string;
 }
