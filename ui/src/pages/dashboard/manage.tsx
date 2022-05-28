@@ -6,6 +6,8 @@ import {
 } from 'components';
 import styles from 'styles/dashboard/manage.module.css';
 import { ISurveyBox } from 'interfaces';
+import { useEffect, useState } from 'react';
+import { ApiProxy } from 'services';
 
 const data: ISurveyBox[] = [
   {
@@ -56,6 +58,32 @@ const data: ISurveyBox[] = [
 ];
 
 const Manage = () => {
+  const [surveyData, setSurveyData] = useState<ISurveyBox[]>([])
+
+  useEffect(()=>{
+    const getInitialData = async () => {
+      //TODO: do filter input says
+      const {res, err} = await ApiProxy.getInstance().get("user/surveys");
+
+      if(err || !res) {
+        alert(err)
+        return
+      }
+
+      const dataProcessed : ISurveyBox[] = res.data.map((singleData:any) => ({
+        title: singleData.title,
+        description: singleData.description,
+        rewards: singleData.reward_point,
+        id: singleData.id,
+        estTime: "1 min",
+        img: "/mock-survey-icon.png"
+      }))
+
+      setSurveyData(dataProcessed)
+    }
+    getInitialData()
+  },[])
+
   return (
     <Dashboard>
       <div
@@ -76,7 +104,7 @@ const Manage = () => {
                 styles.recentSurveyContent
               }
             >
-              {data.map((datum) => {
+              {surveyData.map((datum) => {
                 return (
                   <SurveyBox
                     key={datum.id}
