@@ -21,9 +21,9 @@ type SurveyFilter struct {
 type SurveyUpdatePayload struct {
   Title           *string              `json:"title"`
   Description     *string              `json:"description"`
-  CategoryId      *[]uint              `json:"category"`
-  AudienceId      *[]uint              `json:"audience"`
-  GenderId        *[]uint              `json:"gender"`
+  CategoryId      *[]uint              `json:"category_id"`
+  AudienceId      *[]uint              `json:"audience_id"`
+  GenderId        *[]uint              `json:"gender_id"`
   RewardPoint     *int                 `json:"reward_point" binding:"required"`
   MaxAnswer       *uint                `json:"max_answer" binding:"required"`
   IsPublished     *bool                `json:"is_published"`
