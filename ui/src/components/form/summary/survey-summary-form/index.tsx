@@ -4,7 +4,18 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import NumericInput from "react-numeric-input";
-import { useState } from "react";
+import { ApiProxy } from "services";
+import { useState, useEffect } from "react";
+
+interface ITargetOption {
+  label: string;
+  selected?: string;
+  id:string;
+  values: {
+    label: string;
+    id:number;
+  }[];
+}
 
 const targetOptions: {
   label: string;
@@ -25,9 +36,9 @@ const targetOptions: {
       {
         label: "Worker",
       },
-    ],
+    ],  
   },
-  {
+    {
     label: "Gender",
     values: [
       {
@@ -66,7 +77,53 @@ const SurveySummaryForm = ({
   setSurveySummary: (surveySummary: ISurveySummary) => void;
   onSubmit: () => void;
 }) => {
-  const [targets, setTargets] = useState(targetOptions);
+  const [targets, setTargets] = useState<ITargetOption[]>([]);
+
+  useEffect(()=>{
+    const getFilters = async () => {
+      const { res, err } = await ApiProxy.getInstance().getInitialData(
+        "survey-filters"
+      )!;
+
+      if (err || !res) {
+        if(err.response.data) {
+          alert(err.response.data)
+        } else {
+          alert(err);
+        }
+        return;
+      }
+
+      setTargets([
+        {
+          label: "Audience",
+          id: "audience_id",
+          values: res.data.audience.map((singleData:any)=>({
+            label: singleData.name,
+            id: singleData.id
+          }))
+        },
+        {
+          label: "Category",
+          id: "category_id",
+          values: res.data.category.map((singleData:any)=>({
+            label: singleData.name,
+            id: singleData.id
+          }))
+        },
+        {
+          label: "Gender",
+          id: "gender_id",
+          values: res.data.gender.map((singleData:any)=>({
+            label: singleData.name,
+            id: singleData.id
+          }))
+        }
+      ])
+    }
+
+    getFilters();
+  },[])
 
   return (
     <div className={styles.container}>
@@ -114,11 +171,28 @@ const SurveySummaryForm = ({
               <NumericInput
                 mobile
                 className={styles.inputRewards + " form-control"}
-                value={surveySummary.rewardPoint}
+                value={surveySummary.reward_point}
                 onChange={(value: number) => {
                   setSurveySummary({
                     ...surveySummary,
-                    rewardPoint: value,
+                    reward_point: value,
+                  });
+                }}
+                min={0}
+              />
+            </div>
+          </div>
+          <div className={styles.surveyRewards}>
+            <div className={styles.formLabel}>Max Answer</div>
+            <div className={styles.inputRewardsContainer}>
+              <NumericInput
+                mobile
+                className={styles.inputRewards + " form-control"}
+                value={surveySummary.max_answer}
+                onChange={(value: number) => {
+                  setSurveySummary({
+                    ...surveySummary,
+                    max_answer: value,
                   });
                 }}
                 min={0}
@@ -157,6 +231,12 @@ const SurveySummaryForm = ({
                                 const newTargets = [...targets];
                                 newTargets[idx].selected = value.label;
                                 setTargets(newTargets);
+                                setSurveySummary(
+                                  {
+                                    ...surveySummary,
+                                    [option.id]:value.id
+                                  }
+                                )
                               }}
                             >
                               {value.label}

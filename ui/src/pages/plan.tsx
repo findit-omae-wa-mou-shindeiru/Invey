@@ -39,7 +39,11 @@ const Plan = () => {
     );
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 

@@ -13,7 +13,11 @@ const Register = () => {
       )!;
 
       if (err || !res) {
-        alert(err);
+        if(err.response.data) {
+          alert(err.response.data)
+        } else {
+          alert(err);
+        }
         return;
       }
 
@@ -113,7 +117,11 @@ const Register = () => {
     );
 
     if (err) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
     } else {
       router.push("/dashboard/explore");
     }

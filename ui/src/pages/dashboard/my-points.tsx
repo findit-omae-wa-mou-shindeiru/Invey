@@ -21,7 +21,11 @@ const MyPoints = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/profile");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -45,7 +49,11 @@ const MyPoints = () => {
     );
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 

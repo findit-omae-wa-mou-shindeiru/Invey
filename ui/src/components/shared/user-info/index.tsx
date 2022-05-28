@@ -17,7 +17,11 @@ const UserInfo = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/profile");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -38,7 +42,11 @@ const UserInfo = () => {
     const { res, err } = await ApiProxy.getInstance().get("user/profile");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -57,7 +65,11 @@ const UserInfo = () => {
     );
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 

@@ -142,7 +142,11 @@ const Explore = () => {
     );
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -162,7 +166,11 @@ const Explore = () => {
     const { res, err } = await ApiProxy.getInstance().get("survey-filters");
 
     if (err || !res) {
-      alert(err);
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
       return;
     }
 
@@ -215,7 +223,12 @@ const Explore = () => {
                     );
 
                     if (err || !res) {
-                      alert(err);
+                      console.log(res)
+                      if(err.response.data) {
+                        alert(err.response.data)
+                      } else {
+                        alert(err);
+                      }
                       return;
                     }
 

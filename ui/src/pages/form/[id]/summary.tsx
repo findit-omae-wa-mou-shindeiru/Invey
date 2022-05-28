@@ -3,6 +3,8 @@ import styles from "styles/form/summary.module.css";
 import { UploadImg, SurveySummaryForm } from "components";
 import { useState } from "react";
 import { ISurveySummary } from "interfaces";
+import { ApiProxy } from "services";
+import { useRouter } from "next/router";
 
 const getStatusText = (status: string) => {
   switch (status) {
@@ -16,11 +18,13 @@ const getStatusText = (status: string) => {
 const defaultSurveySummary: ISurveySummary = {
   title: "Untitled Survey",
   description: "Description",
-  rewardPoint: 0,
+  reward_point: 0,
+  max_answer: 0,
   target: [],
 };
 
 const Summary = () => {
+  const router = useRouter()
   const [coverPicture, setCoverPicture] = useState<File>();
   const [bannerPicture, setBannerPicture] = useState<File>();
   const [surveySummary, setSurveySummary] =
@@ -37,11 +41,27 @@ const Summary = () => {
     estTime: "2mins",
   };
 
-  const onSubmit = () => {
-    console.log("submit");
+  const onSubmit = async () => {
     console.log("surveySummary", surveySummary);
-    console.log("coverPicture", coverPicture);
-    console.log("bannerPicture", bannerPicture);
+    const {id} = router.query
+
+    const { res, err } = await ApiProxy.getInstance().put(
+      `survey/${id}`,
+      surveySummary
+    )!;
+
+    if(err || !res){
+      if(err.response.data) {
+        alert(err.response.data)
+      } else {
+        alert(err);
+      }
+      return
+    }
+
+    if(res.status == 200) {
+      alert("Successfully updated form")
+    }
   };
 
   return (
