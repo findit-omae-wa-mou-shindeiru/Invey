@@ -122,6 +122,54 @@ func CreateSurvey(c *gin.Context) {
     c.JSON(200, survey)
 }
 
+func CreateInitialSurvey(c *gin.Context) {
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(400, err_token.Error())
+        return
+    }
+
+    survey := models.Survey {
+        Title: "",
+        Description: "",
+        QuestionsId: "",
+        Category: []models.SurveyCategory{}, 
+        Audience: []models.SurveyAudience{},
+        Gender: []models.SurveyGender{},
+        OwnerId: user_claim.ID,
+        RewardPoint: 0,
+        MaxAnswer: 0,
+        IsPublished: false,
+    }
+
+    result := models.DB.Create(&survey)
+
+    if result.Error != nil {
+        c.String(500, "Error inserting survey")
+        return
+    }
+
+    c.JSON(200, survey)
+    
+}
+
 func GetFilters(c *gin.Context) {
     var gender []models.SurveyGender
     var audience []models.SurveyAudience
@@ -536,3 +584,5 @@ func CheckUserEligibility(c *gin.Context) {
         c.String(400, "Uneligible to fill the form")
     }
 }
+
+

@@ -36,6 +36,7 @@ func main() {
     r.POST("/auth/register", auth.Register)
     r.GET("/survey-filters", survey.GetFilters)
     r.POST("/survey", survey.CreateSurvey)
+    r.GET("/create-initial-survey", survey.CreateInitialSurvey)
     r.PUT("/survey/:surveyId", survey.UpdateSurvey)
     r.POST("/survey-answer/:surveyId", survey.CreateAnswerToSurvey)
     r.GET("/survey-answer/:surveyId", survey.GetSurveyAnswerBySurveyId)
