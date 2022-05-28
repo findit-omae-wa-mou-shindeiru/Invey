@@ -1,6 +1,8 @@
 import styles from "styles/plan.module.css";
 import { useState } from "react";
 import { IPlanOption } from "interfaces";
+import { ApiProxy } from "services";
+import { Loading } from "components";
 
 const leftContentListItems = [
   "Unlimited Audience",
@@ -27,14 +29,35 @@ const planOptions: IPlanOption[] = [
 
 const Plan = () => {
   const [activeTab, setActiveTab] = useState<IPlanOption>();
+  const [loading, setLoading] = useState(false);
 
-  const makePayment = (planOption: IPlanOption) => {
-    console.log("make payment");
+  const makePayment = async () => {
+    setLoading(true);
+
+    const { res, err } = await ApiProxy.getInstance().get(
+      "user/upgrade-status"
+    );
+
+    if (err || !res) {
+      alert(err);
+      return;
+    }
+
+    if (res.status !== 200) {
+      alert(res.data);
+      return;
+    }
+
+    const { data } = res;
+    console.log(data);
+
     setActiveTab(undefined);
+    setLoading(false);
   };
 
   return (
     <div className={styles.container + " page"}>
+      {loading && <Loading />}
       <div className={styles.iconContainer}>
         <img src="/plan-icon.svg" alt="plan icon" />
       </div>
@@ -134,7 +157,13 @@ const Plan = () => {
               " mt-5 d-flex justify-content-center"
             }
           >
-            <button disabled={!activeTab} className="btn">Make Payment</button>
+            <button
+              disabled={!activeTab}
+              className="btn"
+              onClick={() => makePayment()}
+            >
+              Make Payment
+            </button>
           </div>
         </div>
       </div>
