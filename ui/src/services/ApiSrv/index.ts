@@ -11,9 +11,9 @@ class ApiSrv {
         headers: this.generateHeader(token),
         responseType: "json",
       });
-      return { data: res.data, err: null };
+      return { res, err: null };
     } catch (err) {
-      return { data: null, err };
+      return { res: null, err };
     }
   }
   async post(token: string, path: string, payload: Object) {
@@ -28,9 +28,9 @@ class ApiSrv {
         data: payload,
       });
 
-      return { data: res.data, err: null };
+      return { res, err: null };
     } catch (err) {
-      return { data: null, err };
+      return { res: null, err };
     }
   }
 
@@ -43,9 +43,9 @@ class ApiSrv {
         responseType: "json",
         data: payload,
       });
-      return { data: res.data, err: null };
+      return { res, err: null };
     } catch (err) {
-      return { data: null, err };
+      return { res: null, err };
     }
   }
 

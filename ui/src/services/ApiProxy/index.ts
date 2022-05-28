@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { ApiSrv } from "services";
 
 class ApiProxy {
@@ -16,16 +17,16 @@ class ApiProxy {
   }
 
   public async login({ email, password }: { email: string; password: string }) {
-    const { data, err } = await this.apiSrv.post("", "auth/login", {
+    const { res, err } = await this.apiSrv.post("", "auth/login", {
       email,
       password,
     });
 
-    if (data && data.token) {
-      this.setToken(data.token);
+    if (res && res.data.token) {
+      this.setToken(res.data.token);
     }
 
-    return { data, err };
+    return { data: res?.data, err };
   }
 
   public async register({
@@ -33,43 +34,55 @@ class ApiProxy {
     secondname,
     email,
     password,
+    gender_id,
+    position_id
   }: {
     firstname: string;
     secondname: string;
     email: string;
     password: string;
+    gender_id: number;
+    position_id: number;
   }) {
-    const { data, err } = await this.apiSrv.post("", "auth/register", {
+    const { res, err } = await this.apiSrv.post("", "auth/register", {
       firstname,
       secondname,
       email,
       password,
+      gender_id,
+      position_id
     });
 
-    if (data && data.token) {
-      this.setToken(data.token);
+    if (res && res.data.token) {
+      this.setToken(res.data.token);
     }
 
-    return { data, err };
+    return { data: res?.data, err };
   }
 
   public async get(path: string) {
     const token = this.getToken();
 
     if (!token) {
-      alert("No token found");
-      return;
+      return new Promise<{res: AxiosResponse<any,any> | null | undefined, err: string}>(function(resolve, _) {
+        resolve({res:null, err:"No token found"})
+      })
     }
 
     return this.apiSrv.get(token, path);
+  }
+
+  public async getInitialData(path: string) {
+    return this.apiSrv.get("", path);
   }
 
   public async post(path: string, payload: Object) {
     const token = this.getToken();
 
     if (!token) {
-      alert("No token found");
-      return;
+      return new Promise<{res: AxiosResponse<any,any> | null | undefined, err: string}>(function(resolve, _) {
+        resolve({res:null, err:"No token found"})
+      })
     }
 
     return this.apiSrv.post(token, path, payload);
@@ -79,8 +92,9 @@ class ApiProxy {
     const token = this.getToken();
 
     if (!token) {
-      alert("No token found");
-      return;
+      return new Promise<{res: AxiosResponse<any,any> | null | undefined, err: string}>(function(resolve, _) {
+        resolve({res:null, err:"No token found"})
+      })
     }
 
     return this.apiSrv.put(token, path, payload);

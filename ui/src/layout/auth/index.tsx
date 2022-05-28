@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
-const Auth = ({ content }: { content: IContent }) => {
+const Auth = ({ content, registerCallback }: { content: IContent, registerCallback: (params: Object) => void }) => {
   const initialState = content.inputs.map(({ defaultValue }) => {
     return {
       value: defaultValue,
@@ -20,9 +20,10 @@ const Auth = ({ content }: { content: IContent }) => {
       Object.assign(res, { [key]: value });
     });
     console.log('res',res);
-    content.onSubmit(res);
+    // registerCallback(res);
     setStates(initialState);
   };
+
 
   return (
     <div className={styles.container + " page d-flex flex-column flex-md-row"}>
