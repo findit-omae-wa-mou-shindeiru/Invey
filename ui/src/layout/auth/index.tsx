@@ -1,7 +1,7 @@
 import styles from "./index.module.css";
 import { IContent } from "interfaces";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const Auth = ({ content, registerCallback }: { content: IContent, registerCallback: (params: Object) => void }) => {
@@ -20,10 +20,9 @@ const Auth = ({ content, registerCallback }: { content: IContent, registerCallba
       Object.assign(res, { [key]: value });
     });
     console.log('res',res);
-    // registerCallback(res);
+    registerCallback(res);
     setStates(initialState);
   };
-
 
   return (
     <div className={styles.container + " page d-flex flex-column flex-md-row"}>
@@ -45,7 +44,7 @@ const Auth = ({ content, registerCallback }: { content: IContent, registerCallba
                   {input.type === "dropdown" ? (
                     <Dropdown>
                       <Dropdown.Toggle id={`dropdown-${input.key}`}>
-                        {states[idx].value
+                        {states[idx]?.value
                           ? content.inputs[idx].options!.find(
                               (option) => option.id === states[idx].value
                             )!.label
@@ -60,7 +59,7 @@ const Auth = ({ content, registerCallback }: { content: IContent, registerCallba
                                 key={innerIdx}
                                 onClick={() => {
                                   const newState = [...states];
-                                  newState[idx].value = option.id;
+                                  newState[idx]?.value = option.id;
                                   setStates(newState);
                                 }}
                               >
@@ -73,7 +72,7 @@ const Auth = ({ content, registerCallback }: { content: IContent, registerCallba
                     </Dropdown>
                   ) : (
                     <input
-                      value={states[idx].value}
+                      value={states[idx]?.value}
                       onChange={(e) => {
                         const newState = [...states];
                         newState[idx].value = e.target.value;

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 const Register = () => {
   const router = useRouter();
+  
+  const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
     const getInitialData = async () => {
@@ -20,11 +22,32 @@ const Register = () => {
           ...content,
           inputs: [
             ...content.inputs,
+            {
+              key: "position_id",
+              placeholder: "Select Position",
+              defaultValue: "",
+              type: "dropdown",
+              options: res.data.audience.map((a:any) => ({
+                label: a.name,
+                id: a.id
+              }))
+            },
+            {
+              key: "gender_id",
+              placeholder: "Select Gender",
+              defaultValue: "",
+              type: "dropdown",
+              options: res.data.gender.map((g:any) => ({
+                label: g.name,
+                id: g.id
+              }))
+            }
           ]
         })
       } else {
         alert(res.data)
       }
+      setLoading(false)
     }
     getInitialData()
   }, [])
@@ -57,42 +80,6 @@ const Register = () => {
         defaultValue: "",
         type: "password",
       },
-      {
-        key: "position",
-        placeholder: "Select Position",
-        defaultValue: "",
-        type: "dropdown",
-        options: [
-          {
-            label: "Student",
-            id: "STUDENT",
-          },
-          {
-            label: "Teacher",
-            id: "TEACHER",
-          },
-          {
-            label: "Worker",
-            id: "WORKER",
-          },
-        ],
-      },
-      {
-        key: "gender",
-        placeholder: "Select Gender",
-        defaultValue: "",
-        type: "dropdown",
-        options: [
-          {
-            label: "Male",
-            id: "MALE",
-          },
-          {
-            label: "Female",
-            id: "FEMALE",
-          },
-        ],
-      },
     ],
     btn: "Register",
     linkLbl1: "Already have an account? ",
@@ -119,7 +106,7 @@ const Register = () => {
       }
   }
 
-  return <Auth content={content} registerCallback={onSubmit} />;
+ return loading ? <div/> : <Auth content={content} registerCallback={onSubmit} />;
 };
 
 export default Register;
