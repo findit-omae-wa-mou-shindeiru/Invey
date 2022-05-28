@@ -12,7 +12,6 @@ interface IContent {
   linkLbl1: string;
   linkLbl2: string;
   link: string;
-  onSubmit: (params: Object) => void;
 }
 
 export default IContent;

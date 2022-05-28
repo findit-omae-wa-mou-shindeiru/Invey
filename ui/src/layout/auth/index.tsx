@@ -3,8 +3,15 @@ import { IContent } from "interfaces";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
+import { Loading } from "components";
 
-const Auth = ({ content, registerCallback }: { content: IContent, registerCallback: (params: Object) => void }) => {
+const Auth = ({
+  content,
+  submitCallback,
+}: {
+  content: IContent;
+  submitCallback: (params: Object) => void;
+}) => {
   const initialState = content.inputs.map(({ defaultValue }) => {
     return {
       value: defaultValue,
@@ -12,20 +19,25 @@ const Auth = ({ content, registerCallback }: { content: IContent, registerCallba
   });
 
   const [states, setStates] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    setIsLoading(true);
+
     const res = {};
     states.forEach(({ value }, idx) => {
       const key = content.inputs[idx].key;
       Object.assign(res, { [key]: value });
     });
-    console.log('res',res);
-    registerCallback(res);
+    console.log("res", res);
+    await submitCallback(res);
     setStates(initialState);
+    setIsLoading(false);
   };
 
   return (
     <div className={styles.container + " page d-flex flex-column flex-md-row"}>
+      {isLoading && <Loading />}
       <div
         className={
           styles.leftContainer +

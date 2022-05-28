@@ -5,52 +5,29 @@ import { useEffect, useState } from "react";
 
 const Register = () => {
   const router = useRouter();
-  
-  const [loading, setLoading] = useState(true)
 
-  useEffect(()=>{
+  useEffect(() => {
     const getInitialData = async () => {
-      const {res, err} = await ApiProxy.getInstance().getInitialData("survey-filters")!;
+      const { res, err } = await ApiProxy.getInstance().getInitialData(
+        "survey-filters"
+      )!;
 
       if (err || !res) {
-        alert(err)
-        return
+        alert(err);
+        return;
       }
 
       if (res!.status == 200) {
         setContent({
           ...content,
-          inputs: [
-            ...content.inputs,
-            {
-              key: "position_id",
-              placeholder: "Select Position",
-              defaultValue: "",
-              type: "dropdown",
-              options: res.data.audience.map((a:any) => ({
-                label: a.name,
-                id: a.id
-              }))
-            },
-            {
-              key: "gender_id",
-              placeholder: "Select Gender",
-              defaultValue: "",
-              type: "dropdown",
-              options: res.data.gender.map((g:any) => ({
-                label: g.name,
-                id: g.id
-              }))
-            }
-          ]
-        })
+          inputs: [...content.inputs],
+        });
       } else {
-        alert(res.data)
+        alert(res.data);
       }
-      setLoading(false)
-    }
-    getInitialData()
-  }, [])
+    };
+    getInitialData();
+  }, []);
 
   const [content, setContent] = useState({
     title: "Get Started for free",
@@ -80,6 +57,42 @@ const Register = () => {
         defaultValue: "",
         type: "password",
       },
+      {
+        key: "position",
+        placeholder: "Select Position",
+        defaultValue: "",
+        type: "dropdown",
+        options: [
+          {
+            label: "Student",
+            id: "STUDENT",
+          },
+          {
+            label: "Teacher",
+            id: "TEACHER",
+          },
+          {
+            label: "Worker",
+            id: "WORKER",
+          },
+        ],
+      },
+      {
+        key: "gender",
+        placeholder: "Select Gender",
+        defaultValue: "",
+        type: "dropdown",
+        options: [
+          {
+            label: "Male",
+            id: "MALE",
+          },
+          {
+            label: "Female",
+            id: "FEMALE",
+          },
+        ],
+      },
     ],
     btn: "Register",
     linkLbl1: "Already have an account? ",
@@ -88,25 +101,25 @@ const Register = () => {
   });
 
   const onSubmit = async (params: Object) => {
-      const { err } = await ApiProxy.getInstance().register(
-        params as {
-          firstname: string;
-          secondname: string;
-          email: string;
-          password: string;
-          gender_id: number;
-          position_id: number;
-        }
-      );
-
-      if (err) {
-        alert(err);
-      } else {
-        router.push("/dashboard/explore");
+    const { err } = await ApiProxy.getInstance().register(
+      params as {
+        firstname: string;
+        secondname: string;
+        email: string;
+        password: string;
+        gender_id: number;
+        position_id: number;
       }
-  }
+    );
 
- return loading ? <div/> : <Auth content={content} registerCallback={onSubmit} />;
+    if (err) {
+      alert(err);
+    } else {
+      router.push("/dashboard/explore");
+    }
+  };
+
+  return <Auth content={content} submitCallback={onSubmit} />;
 };
 
 export default Register;

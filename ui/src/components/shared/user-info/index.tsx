@@ -38,6 +38,8 @@ const notifs: INotification[] = [
 
 const UserInfo = () => {
   const [notifOpen, setNotifOpen] = useState(false);
+  const [countNotif, setCountNotif] = useState(0);
+  const [notifications, setNotifications] = useState([]);
   const [userInfo, setUserInfo] = useState({
     name: "",
     job: "",
@@ -65,8 +67,53 @@ const UserInfo = () => {
     });
   };
 
+  const fetchCountNotif = async () => {
+    const { res, err } = await ApiProxy.getInstance().get("user/profile");
+
+    if (err || !res) {
+      alert(err);
+      return;
+    }
+
+    if (res.status !== 200) {
+      alert(res.data);
+      return;
+    }
+
+    const { data } = res;
+    setCountNotif(data.total);
+  };
+
+  const fetchNotifs = async () => {
+    const { res, err } = await ApiProxy.getInstance().get("user/read-notification");
+
+    if (err || !res) {
+      alert(err);
+      return;
+    }
+
+    if (res.status !== 200) {
+      alert(res.data);
+      return;
+    }
+
+    const { data } = res;
+    setNotifications(data);
+  };
+
+  const onClickNotif = async () => {
+    if (notifOpen) {
+      setNotifOpen(false);
+      return;
+    }
+
+    await fetchNotifs();
+    setNotifOpen(true);
+  };
+
   useEffect(() => {
     fetchData();
+    fetchCountNotif();
   }, []);
 
   return (
@@ -88,10 +135,16 @@ const UserInfo = () => {
           (notifOpen ? styles.notifWrapper : "") +
           " btn d-flex justify-content-center align-items-center position-relative"
         }
-        onClick={() => setNotifOpen(!notifOpen)}
+        onClick={() => onClickNotif()}
       >
-        <div className={styles.notifications}>
+        <div className={styles.notifications + " position-relative"}>
           <img src="/notif-icon.svg" alt="notif icon" />
+
+          {countNotif > 0 && (
+            <div className={styles.totalNotif + " position-absolute"}>
+              {countNotif}
+            </div>
+          )}
         </div>
 
         {notifOpen && (

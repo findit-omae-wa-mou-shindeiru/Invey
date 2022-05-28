@@ -113,9 +113,12 @@ const Setting = () => {
       position_id: userDetail.position?.id,
       gender_id: userDetail.gender?.id,
       password: newPassword ? newPassword : undefined,
-    }
+    };
 
-    const { res, err } = await ApiProxy.getInstance().put("user/profile", newProfile);
+    const { res, err } = await ApiProxy.getInstance().put(
+      "user/profile",
+      newProfile
+    );
 
     if (err || !res) {
       alert(err);
@@ -129,9 +132,8 @@ const Setting = () => {
 
   return (
     <Dashboard>
-      {isLoading ? (
-        <Loading />
-      ) : (
+      <>
+        {isLoading && <Loading />}
         <div className={styles.container + " d-flex mt-3"}>
           <div className={styles.leftContainer}>
             <div className={styles.generalFormContainer}>
@@ -315,7 +317,7 @@ const Setting = () => {
             <UploadImg title="Profile Picture" file={file} setFile={setFile} />
           </div>
         </div>
-      )}
+      </>
     </Dashboard>
   );
 };
