@@ -466,6 +466,18 @@ func UpdateSurvey(c *gin.Context) {
     
         models.DB.Model(&survey).Association("Category").Replace(category)
     }
+
+    if update_payload.MaxAnswer != nil {
+        survey.MaxAnswer = *update_payload.MaxAnswer
+    }
+
+    if update_payload.RewardPoint != nil {
+        survey.RewardPoint = *update_payload.RewardPoint
+    }
+
+    if update_payload.IsPublished != nil {
+        survey.IsPublished = *update_payload.IsPublished
+    }
     
     c.JSON(200,survey)
 }

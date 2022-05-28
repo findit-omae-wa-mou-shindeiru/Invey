@@ -24,4 +24,7 @@ type SurveyUpdatePayload struct {
   CategoryId      *[]uint              `json:"category"`
   AudienceId      *[]uint              `json:"audience"`
   GenderId        *[]uint              `json:"gender"`
+  RewardPoint     *int                 `json:"reward_point" binding:"required"`
+  MaxAnswer       *uint                `json:"max_answer" binding:"required"`
+  IsPublished     *bool                `json:"is_published"`
 }
