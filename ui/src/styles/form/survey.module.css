@@ -5,7 +5,7 @@
 .surveyContainer {
   flex-grow: 2;
   gap: 1.5rem;
-  padding: 20px 1.5rem;
+  padding: 3rem 1.5rem;
 }
 
 .surveyInfoContainer {
@@ -49,4 +49,19 @@
 .question {
   width: 100%;
   margin-bottom: 1.5rem;
+}
+
+.btnContainer > button {
+  background: #293072;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: #ffffff;
+}
+
+.btnContainer > button:hover {
+  color: #ffffff;
+  box-shadow: 1px 1px 8px 8px rgba(0, 0, 0, 0.1);
 }

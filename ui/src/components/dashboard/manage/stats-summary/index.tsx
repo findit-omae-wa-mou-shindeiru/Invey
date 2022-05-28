@@ -141,22 +141,26 @@ const StatsSummary = () => {
               <h2>{userData?.rewardPoint} points</h2>
             </div>
           </div>
-          <div className={styles.topupCard}>
-            <div className={styles.topupIconContainer}>
-              <img src="/topup-icon.svg" alt="topup icon" />
+          <Link href="/dashboard/my-points">
+            <div className={styles.topupCard + " btn"}>
+              <div className={styles.topupIconContainer}>
+                <img src="/topup-icon.svg" alt="topup icon" />
+              </div>
+              <div className={styles.topupDetails}>
+                <h2>Top Up</h2>
+              </div>
             </div>
-            <div className={styles.topupDetails}>
-              <h2>Top Up</h2>
+          </Link>
+          <Link href="/dashboard/my-points">
+            <div className={styles.redeemCard + " btn"}>
+              <div className={styles.redeemIconContainer}>
+                <img src="/redeem-icon.svg" alt="redeem icon" />
+              </div>
+              <div className={styles.redeemDetails}>
+                <h2>Redeem</h2>
+              </div>
             </div>
-          </div>
-          <div className={styles.redeemCard}>
-            <div className={styles.redeemIconContainer}>
-              <img src="/redeem-icon.svg" alt="redeem icon" />
-            </div>
-            <div className={styles.redeemDetails}>
-              <h2>Redeem</h2>
-            </div>
-          </div>
+          </Link>
         </div>
       </div>
       <div className={styles.quickStats + " mb-3"}>

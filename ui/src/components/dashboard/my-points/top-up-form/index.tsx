@@ -70,7 +70,7 @@ const TopUpForm = ({ onVerify }: { onVerify: (point: number) => void }) => {
                 variant="secondary"
                 className={styles.dropdownBtn + " text-start"}
               >
-                {paymentMethod ? paymentMethod.label : "Select Payment Method"}
+                {paymentMethod ? paymentMethod.label : "Select Method"}
               </Button>
 
               <Dropdown.Toggle
