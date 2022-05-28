@@ -34,9 +34,11 @@ const FormNav = () => {
           " d-flex justify-content-between align-items-center"
         }
       >
-        <div className={styles.topLeftContainer}>
-          <img src="/logo-white.png" alt="logo" />
-        </div>
+        <Link href="/dashboard/explore">
+          <div className={styles.topLeftContainer + " btn"}>
+            <img src="/logo-white.png" alt="logo" />
+          </div>
+        </Link>
         <div className={styles.topRightContainer}>
           <UserInfo />
         </div>

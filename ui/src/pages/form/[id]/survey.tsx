@@ -73,7 +73,7 @@ const Survey = () => {
               }
             >
               <button onClick={onSubmit} className="btn">
-                Submit
+                Save Question
               </button>
             </div>
           )}
