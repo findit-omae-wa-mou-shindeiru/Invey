@@ -89,6 +89,13 @@
   max-width: 30px !important;
 }
 
+.dropdownBtn {
+  font-weight: 500 !important;
+  font-size: calc(12px + 0.5rem) !important;
+  line-height: calc(15px + 0.5rem) !important;
+  color: #5f6495 !important;
+}
+
 .dropdownBtn:hover {
   background: none;
   color: rgba(41, 48, 114, 0.75);
@@ -97,4 +104,11 @@
 .dropdownBtn:focus:not(:hover) {
   background: none;
   color: rgba(41, 48, 114, 0.75);
+}
+
+.container input {
+  font-weight: 500 !important;
+  font-size: calc(12px + 0.5rem) !important;
+  line-height: calc(15px + 0.5rem) !important;
+  color: #5f6495 !important;
 }

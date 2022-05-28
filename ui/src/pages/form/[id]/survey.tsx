@@ -22,8 +22,6 @@ import {
 } from "interfaces";
 
 const Survey = () => {
-  const [surveyTitle, setSurveyTitle] = useState("Untitled Survey");
-  const [surveyDesc, setSurveyDesc] = useState("Survey Description");
   const [questionStates, setQuestionStates] = useState<IQuestionType[]>([]);
 
   const onAddQuestion = (type: keyof typeof QuestionType) => {
@@ -43,29 +41,15 @@ const Survey = () => {
     setQuestionStates(questionStatesCopy);
   };
 
+  const onSubmit = () => {
+    alert("SUBMIT DELETE LATER");
+  };
+
   return (
     <Form>
       <div className={styles.container + " d-flex"}>
         <AddQuestionSidebar onAddQuestion={onAddQuestion} />
         <div className={styles.surveyContainer}>
-          <div className={styles.surveyInfoContainer + " w-100"}>
-            <div className={styles.surveyTitle}>
-              <input
-                type="text"
-                value={surveyTitle}
-                onChange={(e) => setSurveyTitle(e.target.value)}
-                placeholder="Survey Title"
-              />
-            </div>
-            <div className={styles.surveyDesc}>
-              <input
-                type="text"
-                value={surveyDesc}
-                onChange={(e) => setSurveyDesc(e.target.value)}
-                placeholder="Survey Description"
-              />
-            </div>
-          </div>
           <div
             className={
               styles.questionContainer +
@@ -82,6 +66,17 @@ const Survey = () => {
               );
             })}
           </div>
+          {questionStates && questionStates.length > 0 && (
+            <div
+              className={
+                styles.btnContainer + " mt-5 d-flex justify-content-end"
+              }
+            >
+              <button onClick={onSubmit} className="btn">
+                Submit
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </Form>
