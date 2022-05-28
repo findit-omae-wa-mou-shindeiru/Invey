@@ -9,16 +9,19 @@
   margin: 1rem auto;
 }
 
-.contentContainer {
+.formContainer {
   z-index: 2;
-  gap: 4%;
   top: 40vh;
   width: 100%;
 }
 
+.contentContainer {
+  gap: 4%;
+}
+
 .contentContainer > * {
   width: 38%;
-  background: #EAEAF1;
+  background: #eaeaf1;
   border-radius: 8px;
 }
 
@@ -34,7 +37,7 @@
   font-weight: 500;
   font-size: calc(15px + 0.5rem);
   line-height: calc(19px + 0.5rem);
-  color: #293072;  
+  color: #293072;
 }
 
 .leftContentDescContainer {
@@ -56,7 +59,7 @@
 }
 
 .planContainer {
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 8px;
   padding: 1rem;
 }
@@ -69,21 +72,21 @@
   font-weight: 500;
   font-size: calc(15px + 0.5rem);
   line-height: calc(19px + 0.5rem);
-  color: #293072;  
+  color: #293072;
 }
 
 .planDescDetail {
   font-weight: 400;
   font-size: calc(8px + 0.5rem);
   line-height: calc(12px + 0.5rem);
-  color: #293072; 
+  color: #293072;
 }
 
 .planPrice {
   font-weight: 500;
   font-size: calc(12px + 0.5rem);
   line-height: calc(16px + 0.5rem);
-  color: #293072; 
+  color: #293072;
 }
 
 .activePlanContainer {
@@ -97,10 +100,23 @@
   font-weight: 700;
   font-size: calc(10px + 0.5rem);
   line-height: calc(14px + 0.5rem);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .rightContentBtnContainer > button:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   box-shadow: 1px 1px 8px 8px rgba(0, 0, 0, 0.1);
+}
+
+.topLeftContainer {
+  top: 50px;
+  left: 50px;
+}
+
+.btnBack {
+  font-weight: 300;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  text-decoration-line: underline;
+  color: #000000;
 }
