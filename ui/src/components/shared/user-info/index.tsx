@@ -1,6 +1,7 @@
 import styles from "./index.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { INotification } from "interfaces";
+import { ApiProxy } from "services";
 
 const notifs: INotification[] = [
   {
@@ -37,21 +38,50 @@ const notifs: INotification[] = [
 
 const UserInfo = () => {
   const [notifOpen, setNotifOpen] = useState(false);
-
-  const user = {
-    name: "John Doe",
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    job: "",
     avatar: "/avatar.png",
-    job: "Software Engineer",
+  });
+
+  const fetchData = async () => {
+    const { res, err } = await ApiProxy.getInstance().get("user/profile");
+
+    if (err || !res) {
+      alert(err);
+      return;
+    }
+
+    if (res.status !== 200) {
+      alert(res.data);
+      return;
+    }
+
+    const { data } = res;
+    setUserInfo({
+      name: `${data.firstname} ${data.secondname}`,
+      job: data.position.name,
+      avatar: data.photo_url,
+    });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.content + " d-flex align-items-center"}>
-      <div className={styles.iconContainer}>
-        <img src={user.avatar} alt="user avatar" />
+      <div
+        className={
+          styles.iconContainer +
+          " d-flex align-items-center justify-content-center"
+        }
+      >
+        <img src={userInfo.avatar} alt="user avatar" />
       </div>
       <div className={styles.identityContainer + " ms-3 me-4"}>
-        <div className={styles.name}>{user.name}</div>
-        <div className={styles.job}>{user.job}</div>
+        <div className={styles.name}>{userInfo.name}</div>
+        <div className={styles.job}>{userInfo.job}</div>
       </div>
       <div
         className={
