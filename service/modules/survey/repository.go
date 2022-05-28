@@ -42,7 +42,7 @@ func CreateQuestion(body []byte) (string, error) {
         return id, nil
 }
 
-func CreateAnswer(surveyId uint64, body []byte) (string, error) {
+func CreateAnswer(ownerId uint,surveyId uint64, body []byte) (string, error) {
         var jsonData []bson.M  
 
         if e := json.Unmarshal(body, &jsonData); e != nil {
@@ -52,7 +52,7 @@ func CreateAnswer(surveyId uint64, body []byte) (string, error) {
 
         c_question := models.MongoClient.Database("invey").Collection("answer")
 
-        result, err := c_question.InsertOne(context.TODO(), bson.M{"survey_id": surveyId, "answer": jsonData})
+        result, err := c_question.InsertOne(context.TODO(), bson.M{"survey_id": surveyId, "owner_id": ownerId, "answer": jsonData})
 
         if err != nil {
             return "", err

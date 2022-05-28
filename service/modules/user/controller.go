@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"encoding/base64"
 	"os"
 	"question-service/models"
@@ -8,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/argon2"
 )
 
@@ -284,4 +286,100 @@ func ReadNotification(c *gin.Context) {
     }
 
     c.JSON(200, notification)
+}
+
+func UpgradeStatus(c *gin.Context) {
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(401, err_token.Error())
+        return
+    }
+
+    var user models.User
+    
+    res := models.DB.Find(&user, user_claim.ID)
+    if res.Error != nil {
+        c.JSON(500, res.Error.Error())
+        return
+    }
+
+    if user.RewardPoint < 100 {
+        c.String(400, "Not enough reward point")
+        return
+    }
+
+    user.RewardPoint -= 100
+    user.IsPremium = true
+
+    models.DB.Save(&user)
+
+    c.String(200, "Succesfully upgraded")
+}
+
+func GetSurveyStats(c *gin.Context) {
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(401, err_token.Error())
+        return
+    }
+
+    var count_survey int64
+
+    err := models.DB.Model(&models.Survey{}).
+    Where("owner_id = ?", user_claim.ID).
+    Count(&count_survey)
+
+    if err.Error != nil {
+        c.String(500, err_token.Error())
+    }
+
+    filter := bson.D{{"owner_id", bson.D{{"$eq", user_claim.ID}}}}
+
+    c_answer := models.MongoClient.Database("invey").Collection("answer")
+
+    count_answer, err_count := c_answer.CountDocuments(context.TODO(), filter)
+
+    if err_count != nil {
+        c.String(401, err_token.Error())
+        return
+    }
+
+    c.JSON(200, gin.H {
+        "total_answer": count_answer,
+        "total_survey": count_survey,
+    })
 }

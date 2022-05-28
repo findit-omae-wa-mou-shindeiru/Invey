@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"question-service/helper"
 	"question-service/models"
 	"question-service/modules/auth"
 	"strconv"
@@ -18,7 +19,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-//TODO: create checking if user reward point enough
 func CreateSurvey(c *gin.Context) {
     body_byte, _ := ioutil.ReadAll(c.Request.Body)
 
@@ -180,6 +180,10 @@ func GetSurveys(c *gin.Context) {
     if len(filter.GenderId) != 0 {
         res = res.Where("surveys.id IN (SELECT survey_id FROM survey_gender WHERE survey_gender_id IN ?)", filter.GenderId)
     }
+
+    if filter.HigherBoundRewardPoint != nil && filter.LowerBoundRewardPoint != nil {
+        res = res.Where("surveys.reward_point BETWEEN ? AND ?", *filter.LowerBoundRewardPoint, *filter.HigherBoundRewardPoint)
+    }
         
     res = res.Find(&survey)
 
@@ -263,6 +267,8 @@ func CreateAnswerToSurvey(c *gin.Context) {
 
     count, err := c_answer.CountDocuments(context.TODO(), filter)
 
+    fmt.Println(count)
+
     if err != nil {
        c.String(500,err.Error())
        return
@@ -305,7 +311,7 @@ func CreateAnswerToSurvey(c *gin.Context) {
         return 
     }
 
-    _, err = CreateAnswer(id, body_byte)
+    _, err = CreateAnswer(survey.OwnerId, id, body_byte)
 
     if err != nil {
         c.String(400, err.Error())
@@ -466,4 +472,67 @@ func UpdateQuestion(c *gin.Context) {
     c.JSON(200, result)
 }
 
-//TODO: create endpoint to check user eligible to fill form
+func CheckUserEligibility(c *gin.Context) {
+    authorization_header := c.Request.Header["Authorization"]
+
+    if len(authorization_header) == 0  {
+        c.String(401, "Unauthorized")
+        return
+    }
+
+    bearer_token := strings.Split(authorization_header[0], " ")
+
+    if len(bearer_token) != 2 {
+        c.String(401, "Missing Token")
+        return
+    }
+
+    token := bearer_token[1]
+
+    user_claim, err_token := auth.GetUserClaimBasedOnToken(token)
+
+    if err_token != nil {
+        c.String(400, err_token.Error())
+        return
+    }
+
+    var user models.User
+    
+    res := models.DB.Find(&user, user_claim.ID)
+
+    if res.Error != nil {
+        c.JSON(404, res.Error.Error())
+    }
+
+    survey_id, err := strconv.ParseUint(c.Param("surveyId"), 10, 64) 
+
+    if err != nil {
+        c.String(400, err.Error())
+    }
+
+    var survey models.Survey
+
+    models.DB.Debug().Preload("Audience").Preload("Gender").First(&survey, survey_id)
+
+    valid_gender := helper.Contains(
+        funk.Map(survey.Gender, func(gender models.SurveyGender) uint {
+            return gender.ID
+        }).([]uint),
+        user.GenderID,
+    )
+
+    valid_occupation := helper.Contains(
+        funk.Map(survey.Audience, func(occupation models.SurveyAudience) uint {
+            return occupation.ID
+        }).([]uint),
+        user.PositionId,
+    )
+
+    if valid_occupation && valid_gender {
+        c.JSON(200, gin.H {
+            "valid": true,
+        })
+    } else {
+        c.String(400, "Uneligible to fill the form")
+    }
+}
