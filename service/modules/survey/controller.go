@@ -263,6 +263,8 @@ func CreateAnswerToSurvey(c *gin.Context) {
 
     count, err := c_answer.CountDocuments(context.TODO(), filter)
 
+    fmt.Println(count)
+
     if err != nil {
        c.String(500,err.Error())
        return
@@ -305,7 +307,7 @@ func CreateAnswerToSurvey(c *gin.Context) {
         return 
     }
 
-    _, err = CreateAnswer(id, body_byte)
+    _, err = CreateAnswer(survey.OwnerId, id, body_byte)
 
     if err != nil {
         c.String(400, err.Error())
