@@ -79,6 +79,7 @@ func Register(c *gin.Context) {
         GenderID: body_payload.GenderID,
         PositionId: body_payload.PositionId,
         PhotoURL: fmt.Sprintf("https://avatars.dicebear.com/api/adventurer/%s.svg", body_payload.FirstName),
+        IsPremium: false,
     } 
 
     result := models.DB.Create(&user)

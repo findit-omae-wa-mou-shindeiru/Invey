@@ -39,6 +39,7 @@ func main() {
     r.PUT("/survey/:surveyId", survey.UpdateSurvey)
     r.POST("/survey-answer/:surveyId", survey.CreateAnswerToSurvey)
     r.GET("/survey-answer/:surveyId", survey.GetSurveyAnswerBySurveyId)
+    r.GET("/survey-eligibility/:surveyId", survey.CheckUserEligibility)
     r.GET("/survey-answer-count/:surveyId", survey.GetAnswerCountBySurveyId)
     r.POST("/survey/filters", survey.GetSurveys)
     r.GET("/survey-question/:id", survey.GetSurveyQuestionBySurveyId)
@@ -50,7 +51,6 @@ func main() {
     r.POST("/user/reward-point", user.EditRewardPoint)
     r.GET("/user/total-notification", user.CountNotification)
     r.GET("/user/read-notification", user.ReadNotification)
-    // TODO: endpoint for getting data of survey
 
     port := os.Getenv("PORT")
 
