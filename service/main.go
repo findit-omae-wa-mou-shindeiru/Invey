@@ -47,6 +47,7 @@ func main() {
     r.GET("/survey/:id", survey.GetSurveyById)
     r.GET("/user/profile", user.GetProfile)
     r.PUT("/user/profile", user.UpdateProfile)
+    r.GET("/user/upgrade-status", user.UpgradeStatus)
     r.GET("/user/surveys", user.GetSurveys)
     r.POST("/user/reward-point", user.EditRewardPoint)
     r.GET("/user/total-notification", user.CountNotification)
