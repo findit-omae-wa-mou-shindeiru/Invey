@@ -234,7 +234,7 @@ const SurveySummaryForm = ({
                                 setSurveySummary(
                                   {
                                     ...surveySummary,
-                                    [option.id]:value.id
+                                    [option.id]:[value.id]
                                   }
                                 )
                               }}
