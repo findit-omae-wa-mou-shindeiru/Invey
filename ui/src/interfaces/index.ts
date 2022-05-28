@@ -1,16 +1,17 @@
-import IContent from './IContent';
-import ISurveyBox from './ISurveyBox';
-import IFilterSelection from './IFilterSelection';
-import IShortAnswer from './IShortAnswer';
-import IParagraph from './IParagraph';
-import ICheckbox from './ICheckbox';
-import IDropdown from './IDropdown';
-import IMultipleChoice from './IMultipleChoice';
-import ILinearScale from './ILinearScale';
-import IQuestionType from './IQuestionType';
-import ISurveySummary from './ISurveySummary';
-import IUserDetail from './IUserDetail';
-import INotification from './INotification';
+import IContent from "./IContent";
+import ISurveyBox from "./ISurveyBox";
+import IFilterSelection from "./IFilterSelection";
+import IShortAnswer from "./IShortAnswer";
+import IParagraph from "./IParagraph";
+import ICheckbox from "./ICheckbox";
+import IDropdown from "./IDropdown";
+import IMultipleChoice from "./IMultipleChoice";
+import ILinearScale from "./ILinearScale";
+import IQuestionType from "./IQuestionType";
+import ISurveySummary from "./ISurveySummary";
+import IUserDetail from "./IUserDetail";
+import INotification from "./INotification";
+import IPlanOption from "./IPlanOption";
 
 export type {
   IContent,
@@ -26,4 +27,5 @@ export type {
   ISurveySummary,
   IUserDetail,
   INotification,
+  IPlanOption,
 };

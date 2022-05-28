@@ -1,6 +1,8 @@
 import styles from "./index.module.css";
 import { ISurveySummary } from "interfaces";
 import Dropdown from "react-bootstrap/Dropdown";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
 import NumericInput from "react-numeric-input";
 import { useState } from "react";
 
@@ -58,9 +60,11 @@ const targetOptions: {
 const SurveySummaryForm = ({
   surveySummary,
   setSurveySummary,
+  onSubmit,
 }: {
   surveySummary: ISurveySummary;
   setSurveySummary: (surveySummary: ISurveySummary) => void;
+  onSubmit: () => void;
 }) => {
   const [targets, setTargets] = useState(targetOptions);
 
@@ -123,14 +127,27 @@ const SurveySummaryForm = ({
           </div>
           <div className={styles.surveyTarget}>
             <div className={styles.formLabel}>Survey Target</div>
-            <div className={styles.inputTargetGroup + " d-flex flex-wrap justify-content-between"}>
+            <div
+              className={
+                styles.inputTargetGroup +
+                " d-flex flex-wrap justify-content-between"
+              }
+            >
               {targets.map((option, idx) => {
                 return (
                   <div key={idx} className={styles.inputTarget}>
-                    <Dropdown>
-                      <Dropdown.Toggle  id="dropdown-basic">
+                    <Dropdown as={ButtonGroup}>
+                      <Button variant="secondary" className={styles.dropdownBtn + " text-start"}>
                         {option.selected ? option.selected : option.label}
-                      </Dropdown.Toggle>
+                      </Button>
+
+                      <Dropdown.Toggle
+                        split
+                        variant="secondary"
+                        id={`dropdown-${option.label}`}
+                        className={styles.inputTargetMenu}
+                      />
+
                       <Dropdown.Menu>
                         {option.values.map((value, idxOption) => {
                           return (
@@ -152,6 +169,13 @@ const SurveySummaryForm = ({
                 );
               })}
             </div>
+          </div>
+          <div
+            className={styles.btnContainer + " mt-5 d-flex justify-content-end"}
+          >
+            <button onClick={onSubmit} className="btn">
+              Save Changes
+            </button>
           </div>
         </div>
       </div>

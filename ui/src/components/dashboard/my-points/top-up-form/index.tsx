@@ -1,5 +1,7 @@
 import styles from "./index.module.css";
 import Dropdown from "react-bootstrap/Dropdown";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import NumericInput from "react-numeric-input";
 
@@ -63,10 +65,20 @@ const TopUpForm = ({ onVerify }: { onVerify: (point: number) => void }) => {
         <div className={styles.paymentMethodContainer}>
           <div className={styles.formLabel}>Payment Method</div>
           <div className={styles.paymentMethodInputContainer}>
-            <Dropdown>
-              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+            <Dropdown as={ButtonGroup}>
+              <Button
+                variant="secondary"
+                className={styles.dropdownBtn + " text-start"}
+              >
                 {paymentMethod ? paymentMethod.label : "Select Payment Method"}
-              </Dropdown.Toggle>
+              </Button>
+
+              <Dropdown.Toggle
+                split
+                variant="secondary"
+                id={`dropdown-payment-method`}
+                className={styles.inputTargetMenu}
+              />
 
               <Dropdown.Menu>
                 {paymentMethodOptions.map((option, idx) => {
@@ -99,7 +111,10 @@ const TopUpForm = ({ onVerify }: { onVerify: (point: number) => void }) => {
           </div>
         )}
         <div
-          className={styles.btnContainer + " mt-4 d-flex justify-content-end align-items-end"}
+          className={
+            styles.btnContainer +
+            " mt-4 d-flex justify-content-end align-items-end"
+          }
         >
           <button
             className={styles.btnVerify + " btn btn-primary"}

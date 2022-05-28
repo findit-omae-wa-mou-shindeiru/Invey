@@ -1,5 +1,7 @@
 import styles from "./index.module.css";
 import Dropdown from "react-bootstrap/Dropdown";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import NumericInput from "react-numeric-input";
 
@@ -44,10 +46,20 @@ const RedeemForm = ({
         <div className={styles.transferMethodContainer}>
           <div className={styles.formLabel}>Transfer Method</div>
           <div className={styles.transferMethodInputContainer}>
-            <Dropdown>
-              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+            <Dropdown as={ButtonGroup}>
+              <Button
+                variant="secondary"
+                className={styles.dropdownBtn + " text-start"}
+              >
                 {transferMethod ? transferMethod : "Select Transfer Method"}
-              </Dropdown.Toggle>
+              </Button>
+
+              <Dropdown.Toggle
+                split
+                variant="secondary"
+                id={`dropdown-transfer-method`}
+                className={styles.inputTargetMenu}
+              />
 
               <Dropdown.Menu>
                 {transferMethodOptions.map((option, idx) => {
