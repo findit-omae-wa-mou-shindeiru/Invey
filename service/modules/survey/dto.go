@@ -11,9 +11,11 @@ type CreateSurveyPayload struct {
 }
 
 type SurveyFilter struct {
-  CategoryId      []uint              `json:"category_id" binding:"required"`
-  AudienceId      []uint              `json:"audience_id" binding:"required"`
-  GenderId        []uint              `json:"gender_id" binding:"required"`
+  CategoryId                []uint              `json:"category_id" binding:"required"`
+  AudienceId                []uint              `json:"audience_id" binding:"required"`
+  GenderId                  []uint              `json:"gender_id" binding:"required"`
+  LowerBoundRewardPoint     *uint                `json:"lower_bound_reward_point"`
+  HigherBoundRewardPoint    *uint                `json:"higher_bound_reward_point"`
 }
 
 type SurveyUpdatePayload struct {

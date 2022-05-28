@@ -180,6 +180,10 @@ func GetSurveys(c *gin.Context) {
     if len(filter.GenderId) != 0 {
         res = res.Where("surveys.id IN (SELECT survey_id FROM survey_gender WHERE survey_gender_id IN ?)", filter.GenderId)
     }
+
+    if filter.HigherBoundRewardPoint != nil && filter.LowerBoundRewardPoint != nil {
+        res = res.Where("surveys.reward_point BETWEEN ? AND ?", *filter.LowerBoundRewardPoint, *filter.HigherBoundRewardPoint)
+    }
         
     res = res.Find(&survey)
 

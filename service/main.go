@@ -53,7 +53,6 @@ func main() {
     r.GET("/user/total-notification", user.CountNotification)
     r.GET("/user/read-notification", user.ReadNotification)
     r.GET("/user/survey-stats", user.GetSurveyStats)
-    // TODO: create redeem endpoint
 
     port := os.Getenv("PORT")
 
