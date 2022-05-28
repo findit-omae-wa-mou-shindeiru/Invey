@@ -8,6 +8,7 @@ import styles from 'styles/dashboard/manage.module.css';
 import { ISurveyBox } from 'interfaces';
 import { useEffect, useState } from 'react';
 import { ApiProxy } from 'services';
+import { useRouter } from 'next/router';
 
 const data: ISurveyBox[] = [
   {
@@ -59,6 +60,7 @@ const data: ISurveyBox[] = [
 
 const Manage = () => {
   const [surveyData, setSurveyData] = useState<ISurveyBox[]>([])
+  const router = useRouter()
 
   useEffect(()=>{
     const getInitialData = async () => {
@@ -97,7 +99,7 @@ const Manage = () => {
             <div
               className={styles.recentSurveyTitle + " mb-3"}
             >
-              Recent Surveys
+              Your Surveys
             </div>
             <div
               className={
@@ -109,6 +111,10 @@ const Manage = () => {
                   <SurveyBox
                     key={datum.id}
                     data={datum}
+                    buttonLabel="Edit now"
+                    buttonCallback={()=>{
+                      router.push(`/form/${datum.id}/summary`)
+                    }}
                   />
                 );
               })}

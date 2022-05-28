@@ -7,6 +7,7 @@ import {
 } from 'components';
 import { ISurveyBox } from 'interfaces';
 import { ApiProxy } from 'services';
+import { useRouter } from 'next/router';
 
 const data: ISurveyBox[] = [
   {
@@ -122,6 +123,7 @@ const filters = [
 ];
 
 const Explore = () => {
+  const router = useRouter()
   const [query, setQuery] = useState('');
   const [surveyData, setSurveyData] = useState<ISurveyBox[]>([])
 
@@ -195,6 +197,24 @@ const Explore = () => {
                 <SurveyBox
                   data={datum}
                   key={datum.id}
+                  buttonLabel="Answer Now"
+                  buttonCallback={async ()=>{
+                      const {res, err} = await ApiProxy.getInstance().get(`survey-eligibility/${datum.id}`);
+
+                      if (err || !res) {
+                        alert(err)
+                        return
+                      }
+
+                      if(res!.status !== 200) {
+                        alert("You are uneligible to fill the form")
+                        return
+                      }
+
+                      if(res.data.valid) {
+                        router.push(`/fill-form/${datum.id}`)
+                      }
+                  }}
                 />
               );
             })}

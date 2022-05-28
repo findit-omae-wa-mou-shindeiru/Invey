@@ -7,11 +7,13 @@ import { useState } from 'react';
 
 const SurveyBox = ({
   data,
+  buttonLabel,
+  buttonCallback
 }: {
   data: ISurveyBox;
+  buttonLabel: string;
+  buttonCallback: () => void;
 }) => {
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
   return (
     <div
       className={
@@ -89,29 +91,9 @@ const SurveyBox = ({
               styles.btnContainer +
               ' d-flex justify-content-center align-items-center'
             }
-            onClick={async ()=>{
-              setLoading(true)
-              const {res, err} = await ApiProxy.getInstance().get(`survey-eligibility/${data.id}`);
-
-              if (err || !res) {
-                alert(err)
-                setLoading(false)
-                return
-              }
-
-              if(res!.status !== 200) {
-                alert("You are uneligible to fill the form")
-                setLoading(false)
-                return
-              }
-
-              if(res.data.valid) {
-                router.push(`/fill-form/${data.id}`)
-              }
-              setLoading(false)
-            }}
+            onClick={buttonCallback}
           >
-            <div style={{"cursor":"pointer"}}>{loading ?  "Loading..." : "Answer Now"}</div>
+            <div style={{"cursor":"pointer"}}>{buttonLabel}</div>
           </div>
         </div>
       </div>

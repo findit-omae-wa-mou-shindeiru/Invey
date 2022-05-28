@@ -1,6 +1,10 @@
+import { removeArgumentsFromDocument } from '@apollo/client/utilities';
+import { useRouter } from 'next/router';
+import { ApiProxy } from 'services';
 import styles from './index.module.css';
 
 const StatsSummary = () => {
+  const router = useRouter()
   return (
     <div className={styles.container + ' ms-4'}>
       <div className={styles.status + ' mb-3'}>
@@ -39,6 +43,19 @@ const StatsSummary = () => {
           className={
             styles.createCard + ' d-flex'
           }
+          style={{
+            "cursor":"pointer"
+          }}
+          onClick={async ()=>{
+            const {res, err} = await ApiProxy.getInstance().get("create-initial-survey");
+
+            if(err || !res) {
+              alert(err)
+              return
+            }
+
+            router.push(`/form/${res.data.id}/summary`)
+          }}
         >
           <div
             className={styles.createIconContainer}
