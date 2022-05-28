@@ -58,9 +58,11 @@ const targetOptions: {
 const SurveySummaryForm = ({
   surveySummary,
   setSurveySummary,
+  onSubmit,
 }: {
   surveySummary: ISurveySummary;
   setSurveySummary: (surveySummary: ISurveySummary) => void;
+  onSubmit: () => void;
 }) => {
   const [targets, setTargets] = useState(targetOptions);
 
@@ -123,12 +125,17 @@ const SurveySummaryForm = ({
           </div>
           <div className={styles.surveyTarget}>
             <div className={styles.formLabel}>Survey Target</div>
-            <div className={styles.inputTargetGroup + " d-flex flex-wrap justify-content-between"}>
+            <div
+              className={
+                styles.inputTargetGroup +
+                " d-flex flex-wrap justify-content-between"
+              }
+            >
               {targets.map((option, idx) => {
                 return (
                   <div key={idx} className={styles.inputTarget}>
                     <Dropdown>
-                      <Dropdown.Toggle  id="dropdown-basic">
+                      <Dropdown.Toggle id="dropdown-basic">
                         {option.selected ? option.selected : option.label}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
@@ -152,6 +159,13 @@ const SurveySummaryForm = ({
                 );
               })}
             </div>
+          </div>
+          <div
+            className={styles.btnContainer + " mt-5 d-flex justify-content-end"}
+          >
+            <button onClick={onSubmit} className="btn">
+              Save Changes
+            </button>
           </div>
         </div>
       </div>

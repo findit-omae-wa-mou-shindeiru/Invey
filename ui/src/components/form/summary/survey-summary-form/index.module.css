@@ -31,7 +31,8 @@
   margin-top: 0.75rem;
 }
 
-.container input[type="text"], .container textarea {
+.container input[type="text"],
+.container textarea {
   width: 100%;
   font-size: calc(9px + 0.5rem);
   line-height: calc(12px + 0.5rem);
@@ -53,4 +54,19 @@
 .inputTargetGroup {
   gap: 1.5rem;
   margin-top: 0.5rem;
+}
+
+.btnContainer > button {
+  background: #293072;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  font-size: calc(12px + 0.5rem);
+  line-height: calc(15px + 0.5rem);
+  color: #FFFFFF;
+}
+
+.btnContainer > button:hover {
+  color: #FFFFFF;
+  box-shadow: 1px 1px 8px 8px rgba(0, 0, 0, 0.1);
 }

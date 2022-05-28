@@ -21,7 +21,8 @@ const defaultSurveySummary: ISurveySummary = {
 };
 
 const Summary = () => {
-  const [file, setFile] = useState<File | undefined>();
+  const [coverPicture, setCoverPicture] = useState<File>();
+  const [bannerPicture, setBannerPicture] = useState<File>();
   const [surveySummary, setSurveySummary] =
     useState<ISurveySummary>(defaultSurveySummary);
 
@@ -34,6 +35,13 @@ const Summary = () => {
       "In publishing and graphic design, Lorem ipsum demonstrate the visual form of a document",
     rewards: 10,
     estTime: "2mins",
+  };
+
+  const onSubmit = () => {
+    console.log("submit");
+    console.log("surveySummary", surveySummary);
+    console.log("coverPicture", coverPicture);
+    console.log("bannerPicture", bannerPicture);
   };
 
   return (
@@ -61,42 +69,24 @@ const Summary = () => {
           <SurveySummaryForm
             surveySummary={surveySummary}
             setSurveySummary={setSurveySummary}
+            onSubmit={onSubmit}
           />
-          {/* <div className={styles.formContainer + " d-flex"}>
-            <div className={styles.imgContainer}>
-              <img src="/mock-survey-icon.png" alt="survey icon" />
-            </div>
-            <div className={styles.infoContainer}>
-              <h1>{data.title}</h1>
-              <p>{data.description}</p>
-              <div className={styles.stats}>
-                <div className={styles.rewards + " d-flex align-items-center"}>
-                  <div className={styles.rewardsIconContainer}>
-                    <img src="/rewards.svg" alt="rewards" />
-                  </div>
-                  <div>{`Rewards\t: ${data.rewards}`}</div>
-                </div>
-                <div className={styles.estTime + " d-flex align-items-center"}>
-                  <div className={styles.estTimeIconContainer}>
-                    <img src="/est-time.svg" alt="est time" />
-                  </div>
-                  <div>{`Est. Time\t: ${data.estTime}`}</div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.editContainer}>
-              <Link href={`/fill-form/${data.surveyId}`}>
-                <a>
-                  <div className={styles.editIconContainer}>
-                    <img src="/edit-icon.svg" alt="edit btn" />
-                  </div>
-                </a>
-              </Link>
-            </div>
-          </div> */}
         </div>
         <div className={styles.rightContainer}>
-          <UploadImg title={"Cover Pictures"} file={file} setFile={setFile} />
+          <div className={styles.coverPictureUploadContainer}>
+            <UploadImg
+              title="Cover Picture"
+              file={coverPicture}
+              setFile={setCoverPicture}
+            />
+          </div>
+          <div className={styles.bannerPictureUploadContainer + " mt-4"}>
+            <UploadImg
+              title="Banner Picture"
+              file={bannerPicture}
+              setFile={setBannerPicture}
+            />
+          </div>
         </div>
       </div>
     </Form>
