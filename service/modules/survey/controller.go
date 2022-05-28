@@ -440,34 +440,34 @@ func UpdateSurvey(c *gin.Context) {
         survey.Description = *update_payload.Description
     }
     
-    if update_payload.AudienceId != nil {
+    if update_payload.AudienceId != nil && len(*update_payload.AudienceId) != 0 {
         var audiences []models.SurveyAudience
     
         for _, a := range *update_payload.AudienceId {
             audiences = append(audiences, models.SurveyAudience{ID: a})
         }
     
-        models.DB.Model(&survey).Association("Audience").Replace(audiences)
+        models.DB.Debug().Model(&survey).Association("Audience").Replace(audiences)
     }
     
-    if update_payload.GenderId != nil {
+    if update_payload.GenderId != nil && len(*update_payload.GenderId) != 0 {
         var gender []models.SurveyGender
     
         for _, a := range *update_payload.GenderId {
             gender = append(gender, models.SurveyGender{ID: a})
         }
     
-        models.DB.Model(&survey).Association("Gender").Replace(gender)
+        models.DB.Debug().Model(&survey).Association("Gender").Replace(gender)
     }
     
-    if update_payload.CategoryId != nil {
+    if update_payload.CategoryId != nil && len(*update_payload.CategoryId) != 0{
         var category []models.SurveyCategory
     
         for _, a := range *update_payload.CategoryId {
             category = append(category, models.SurveyCategory{ID: a})
         }
     
-        models.DB.Model(&survey).Association("Category").Replace(category)
+        models.DB.Debug().Model(&survey).Association("Category").Replace(category)
     }
 
     if update_payload.MaxAnswer != nil {

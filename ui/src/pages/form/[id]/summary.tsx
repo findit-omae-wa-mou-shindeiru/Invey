@@ -173,7 +173,22 @@ const Summary = () => {
             styles.btnContainer + " mt-3 mb-5 me-5 d-flex justify-content-end"
           }
         >
-          <button onClick={onSubmit} className="btn btn-success btn-lg">
+          <button onClick={async () => {
+            const { id } = router.query;
+            const { res, err } = await ApiProxy.getInstance().put(
+              "survey/" + id,
+              {
+                is_published:true
+              }
+            );
+
+            if(err?.response.data) {
+              alert(err.response.data)
+              return
+            }
+
+            alert("Successfully published")
+          }} className="btn btn-success btn-lg">
             Publish
           </button>
         </div>
