@@ -51,7 +51,7 @@ const RedeemForm = ({
                 variant="secondary"
                 className={styles.dropdownBtn + " text-start"}
               >
-                {transferMethod ? transferMethod : "Select Transfer Method"}
+                {transferMethod ? transferMethod : "Select Method"}
               </Button>
 
               <Dropdown.Toggle
