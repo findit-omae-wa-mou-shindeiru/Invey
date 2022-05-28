@@ -3,43 +3,10 @@ import { useState, useEffect } from "react";
 import { INotification } from "interfaces";
 import { ApiProxy } from "services";
 
-const notifs: INotification[] = [
-  {
-    avatar: "/avatar.png",
-    message: "John Doe has filled your survey",
-    time: "3 minutes ago",
-  },
-  {
-    avatar: "/avatar.png",
-    message: "Malik Akbar has filled your survey",
-    time: "5 minutes ago",
-  },
-  {
-    avatar: "/avatar.png",
-    message: "John Doe has filled your survey",
-    time: "3 minutes ago",
-  },
-  {
-    avatar: "/avatar.png",
-    message: "Malik Akbar has filled your survey",
-    time: "5 minutes ago",
-  },
-  {
-    avatar: "/avatar.png",
-    message: "John Doe has filled your survey",
-    time: "3 minutes ago",
-  },
-  {
-    avatar: "/avatar.png",
-    message: "Malik Akbar has filled your survey",
-    time: "5 minutes ago",
-  },
-];
-
 const UserInfo = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const [countNotif, setCountNotif] = useState(0);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<INotification[]>([]);
   const [userInfo, setUserInfo] = useState({
     name: "",
     job: "",
@@ -85,7 +52,9 @@ const UserInfo = () => {
   };
 
   const fetchNotifs = async () => {
-    const { res, err } = await ApiProxy.getInstance().get("user/read-notification");
+    const { res, err } = await ApiProxy.getInstance().get(
+      "user/read-notification"
+    );
 
     if (err || !res) {
       alert(err);
@@ -98,7 +67,19 @@ const UserInfo = () => {
     }
 
     const { data } = res;
-    setNotifications(data);
+    setNotifications(
+      data.map((datum: any) => {
+        return {
+          avatar: datum.Filler.photo_url,
+          message: datum.payload,
+          time:
+            Math.floor((new Date().getTime() - new Date(datum.CreatedAt).getTime()) /
+              1000 /
+              60) +
+            " minutes ago",
+        };
+      })
+    );
   };
 
   const onClickNotif = async () => {
@@ -149,7 +130,7 @@ const UserInfo = () => {
 
         {notifOpen && (
           <div className={styles.notifPopup + " position-absolute"}>
-            {notifs.map((notif, index) => {
+            {notifications.map((notif, index) => {
               return (
                 <div
                   className={styles.notif + " d-flex align-items-center"}
