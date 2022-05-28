@@ -32,6 +32,7 @@
   box-shadow: 1px 1px 6px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   z-index: 2;
+  cursor: default;
 }
 
 .notif {
